@@ -3,34 +3,34 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE MEMBER (
     Pk UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    First_Name VARCHAR(50) NOT NULL UNIQUE,
+    First_Name VARCHAR(50) NOT NULL,
     Email VARCHAR(100) NOT NULL UNIQUE,
-    Password_Loggin VARCHAR(60) NOT NULL,
+    Password_Signin VARCHAR(60) NOT NULL,
     Ip_Address INET NOT NULL,
     Created_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE LOG_IN_HISTORY (
     Pk UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    Fk_User UUID NOT NULL,
+    Fk_Member UUID NOT NULL,
     Ip_Address INET NOT NULL,
-    Logged_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Logged_At TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT cnstnt_log_in_history_fk_user 
-        FOREIGN KEY(Fk_User) 
+        FOREIGN KEY(Fk_Member) 
         REFERENCES MEMBER(Pk)
 );
 
 CREATE TABLE CONTACT (
-    Fk_User UUID NOT NULL,
-    Fk_User_Contact UUID NOT NULL,
-    AddedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Fk_Member UUID NOT NULL,
+    Fk_Member_Contact UUID NOT NULL,
+    Added_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT cnstnt_contact_fk_user 
-        FOREIGN KEY(Fk_User) 
+        FOREIGN KEY(Fk_Member) 
         REFERENCES MEMBER(Pk),
     CONSTRAINT cnstnt_contact_fk_user_contact 
-        FOREIGN KEY(Fk_User_Contact) 
+        FOREIGN KEY(Fk_Member_Contact) 
         REFERENCES MEMBER(Pk)
 );
 
@@ -43,27 +43,27 @@ CREATE TABLE CONVERSATION (
 
 CREATE TABLE PARTICIPANT (
     Fk_Conversation UUID NOT NULL,
-    Fk_User UUID NOT NULL,
+    Fk_Member UUID NOT NULL,
     Joined TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT cnstnt_participant_fk_conversation 
         FOREIGN KEY(Fk_Conversation) 
         REFERENCES CONVERSATION(Pk),
     CONSTRAINT cnstnt_participant_fk_user 
-        FOREIGN KEY(Fk_User) 
+        FOREIGN KEY(Fk_Member) 
         REFERENCES MEMBER(Pk)
 );
 
 CREATE TABLE MESSAGE (
     Fk_Conversation UUID NOT NULL,
-    Fk_User UUID NOT NULL,
+    Fk_Member UUID NOT NULL,
     Content_Text VARCHAR(250) NOT NULL,
-    SentAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Sent_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT cnstnt_message_fk_conversation 
         FOREIGN KEY(Fk_Conversation) 
         REFERENCES CONVERSATION(Pk),
     CONSTRAINT cnstnt_message_fk_user 
-        FOREIGN KEY(Fk_User) 
+        FOREIGN KEY(Fk_Member) 
         REFERENCES MEMBER(Pk)
 );
