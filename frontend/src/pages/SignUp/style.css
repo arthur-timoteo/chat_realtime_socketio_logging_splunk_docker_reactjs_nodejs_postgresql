@@ -1,0 +1,54 @@
+.sign-up-area {
+    padding: 3.5rem;
+    display: flex;
+    flex-direction: column;
+    min-width: 20vw;
+}
+
+.sign-up-area > input {
+    font-size: 15px;
+    padding: 3px;
+    width: 15rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+.sign-up-area > button {
+    padding: 5px;
+    margin-top: 2rem;
+}
+
+.sign-up-area > a.link-already-have-account {
+    margin-top: 0.5rem;
+}
+
+@media screen and (max-width: 575px) {
+    .sign-up-area {
+        padding: 2rem !important;
+        min-width: 66vw;
+    }
+}
+
+@media screen and (min-width: 576px) and (max-width: 767px) {
+    .sign-up-area {
+        min-width: 56vw;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    .sign-up-area {
+        min-width: 56vw;
+    }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    .sign-up-area {
+        min-width: 50vw;
+    }
+}
+
+@media screen and (min-width: 1200px) and (max-width: 1399px) {
+    .sign-up-area {
+        min-width: 40vw;
+    }
+}

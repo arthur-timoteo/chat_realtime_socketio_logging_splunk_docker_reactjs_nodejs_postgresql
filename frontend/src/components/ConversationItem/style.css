@@ -1,0 +1,29 @@
+.conversation-block {
+    display: flex;
+    flex-direction: row;
+}
+
+.conversation-block > svg {
+    font-size: 47px;
+    padding: 0px 10px;
+}
+
+.conversation-block-infos {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.conversation-block-infos-line {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.conversation-block-infos-line > h4{
+    margin: 0px;
+}
+
+.conversation-block-infos > p {
+    margin: 0px;
+}

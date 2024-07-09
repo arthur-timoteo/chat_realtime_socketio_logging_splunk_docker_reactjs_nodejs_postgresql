@@ -1,0 +1,44 @@
+.home-content {
+    flex: 1;
+    flex-direction: row;
+    display: flex;
+    min-width: 70vw;
+    max-height: 40vh;
+}
+
+.home-content > .session-left {
+    min-width: 23vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.home-content > .session-left > .session-conversations {
+    padding: 10px 10px 10px 0px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.menu-bar {
+    background-color: #eeeeee;
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 15px 10px;
+}
+
+.menu-bar > h3 {
+    margin: 0px;
+    font-weight: bold;
+}
+
+.menu-items .icon {
+    font-size: 25px;
+    margin: 0px 10px;
+}
+
+.home-content > .session-right {
+    display: flex;
+    flex: 1;
+    background-color: #fff5e6;
+}
