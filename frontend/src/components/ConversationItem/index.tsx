@@ -1,23 +1,34 @@
 import './style.css';
 import { FaCircleUser } from "react-icons/fa6";
 
-type Conversation = {
-    name: string,
-    last_message: string,
-    time_last_message: string
+type ConversationItemProps = {
+    pk: string,
+    title: string,
+    last_message: string | null,
+    time_last_message: string | null,
+    setPkConversationIsShow: (pkConversation: string) => void
 }
 
-function ConversationItem({name, last_message, time_last_message} : Conversation) {
+function ConversationItem({pk, title, last_message, time_last_message, setPkConversationIsShow} : ConversationItemProps) {
+
     return (
         <div className="conversation-block">
             <FaCircleUser />
             <div className="conversation-block-infos">
                 <div className="conversation-block-infos-line">
-                    <h4>{name}</h4>
-                    <span>{time_last_message}</span>
+                    <h4>{title}</h4>
+
+                    {time_last_message && (
+                        <span>{time_last_message}</span>
+                    )}
                 </div>
-                <p>{last_message}</p>
+
+                {last_message && (
+                    <p>{last_message}</p>
+                )}
             </div>
+
+            <a onClick={() => setPkConversationIsShow(pk)}>Click</a>
         </div>
     );
 }

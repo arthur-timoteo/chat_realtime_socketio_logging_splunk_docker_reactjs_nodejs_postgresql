@@ -36,6 +36,10 @@
     color: #ffffff;
 }
 
+.sign-up-area > form > button > svg {
+    animation: spin 2s infinite linear;
+}
+
 .sign-up-area > form > button:hover {
     background-color: var(--color-primary-1);
 }
@@ -58,6 +62,26 @@
 .sign-up-area > form > div.terms {
     margin-top: 2rem;
     font-size: 14px;
+}
+
+div.danger {
+    background-color: #f15f5f;
+    padding: 6px;
+    border-radius: 5px;
+    border: solid 2px red;
+    text-align: center;
+    font-size: 13px;
+    margin-bottom: 1.5rem;
+}
+
+div.success {
+    background-color: #70f15f;
+    padding: 6px;
+    border-radius: 5px;
+    border: solid 2px green;
+    text-align: center;
+    font-size: 13px;
+    margin-bottom: 1.5rem;
 }
 
 @media screen and (max-width: 575px) {
@@ -88,5 +112,14 @@
 @media screen and (min-width: 1200px) and (max-width: 1399px) {
     .sign-up-area {
         min-width: 40vw;
+    }
+}
+
+@keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
     }
 }

@@ -1,6 +1,8 @@
 .conversation-block {
     display: flex;
     flex-direction: row;
+    padding: 5px 0;
+    border-bottom: 1px solid #9c9c9c;
 }
 
 .conversation-block > svg {

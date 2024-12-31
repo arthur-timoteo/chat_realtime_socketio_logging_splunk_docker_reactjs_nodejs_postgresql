@@ -1,0 +1,27 @@
+div.newchat-modal-area {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+div.newchat-modal-area > a.newchat-modal-item {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5px 0;
+    color: black;
+}
+
+div.newchat-modal-area > a.newchat-modal-item:hover {
+    background-color: rgba(0,0,0, 0.2);
+}
+
+div.newchat-modal-area > a.newchat-modal-item > span {
+    padding-left: 15px;
+}
+
+div.newchat-modal-area > a.newchat-modal-item > svg {
+    font-size: 20px;
+    padding-right: 15px;
+}

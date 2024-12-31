@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { useLocation } from "react-router-dom";
 import './style.css';
 
 // Icons
@@ -6,18 +8,43 @@ import { RiChatNewFill } from "react-icons/ri";
 import { MdGroupAdd } from "react-icons/md";
 
 // Components
-import ConversationItem from "../../components/ConversationItem/index";
-import { useState } from 'react';
+import { Modal } from '../../components/Modal/index';
+import { ContactsModal } from '../../components/ContactsModal/index';
+import { NewChatModal } from '../../components/NewChatModal/index';
+import Conversation from '../../components/Conversation';
+import MessageSession from '../../components/MessageSession';
 
 function Home() {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isContactsModalOpen, setIsContactsModalOpen] = useState(false);
+    const [isAddGroupModalOpen, setIsAddGroupModalOpen] = useState(false);
+    const [isChatModalOpen, setIsChatModalOpen] = useState(false);
+    const [pkConversationIsShow, setPkConversationIsShow] = useState<string>();
 
-    function openModal(){
-        setIsModalOpen(true);
+    const location = useLocation();
+    const pkMember = location.state?.pk;
+
+    function openContactsModal(){
+        setIsContactsModalOpen(true);
     }
     
-    function closeModal(){
-        setIsModalOpen(false);
+    function closeContactsModal(){
+        setIsContactsModalOpen(false);
+    }
+
+    function openAddGroupModal(){
+        setIsAddGroupModalOpen(true);
+    }
+    
+    function closeAddGroupModal(){
+        setIsAddGroupModalOpen(false);
+    }
+    
+    function openChatModal(){
+        setIsChatModalOpen(true);
+    }
+    
+    function closeChatModal(){
+        setIsChatModalOpen(false);
     }
 
     return (
@@ -27,52 +54,57 @@ function Home() {
                     <h3>Name</h3>
                     <div className="menu-items">
 
-                        {isModalOpen && (
-                            <div className="modal-fade">
-                                <div className="modal">
-                                    <div className="modal-content">
-                                        <div className="modal-header">
-                                            <div className="modal-header-content-left">
-                                                <FaCircleArrowLeft onClick={closeModal} className="icon" />
-                                                <h1>Title</h1>
-                                            </div>
-                                            <FaCircleArrowLeft className="icon" />
-                                        </div>
-                                        <div className="modal-body">
-                                            text text text text text
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        {isChatModalOpen && (
+                            <Modal 
+                                closeModal={closeChatModal}
+                                title='NEW CHAT'
+                            >
+                                <NewChatModal
+                                    pkMember={pkMember}
+                                />
+                            </Modal>
+                        )}
+
+                        {isAddGroupModalOpen && (
+                            <Modal 
+                                closeModal={closeAddGroupModal}
+                                title='CREATE A GROUP'
+                            >
+                                oi
+                            </Modal>
+                        )}
+
+                        {isContactsModalOpen && (
+                            <Modal 
+                                closeModal={closeContactsModal}
+                                title='CONTACTS'
+                            >
+                                <ContactsModal
+                                    pkMember={pkMember}
+                                />
+                            </Modal>
                         )}
                         
-                        <RiChatNewFill onClick={openModal} className="icon" />
-                        <MdGroupAdd onClick={openModal} className="icon" />
-                        <FaAddressBook onClick={openModal} className="icon" />
+                        <RiChatNewFill onClick={openChatModal} className="icon" />
+                        <MdGroupAdd onClick={openAddGroupModal} className="icon" />
+                        <FaAddressBook onClick={openContactsModal} className="icon" />
                     </div>
                 </div>
-                <div className="session-conversations">
-                    <ConversationItem name="Name" time_last_message="00:00" last_message="Text text text text text" />
-                    <hr/>
-                    <ConversationItem name="Name" time_last_message="00:00" last_message="Text text text text text" />
-                    <hr/>
-                    <ConversationItem name="Name" time_last_message="00:00" last_message="Text text text text text" />
-                    <hr/>
-                    <ConversationItem name="Name" time_last_message="00:00" last_message="Text text text text text" />
-                    <hr/>
-                    <ConversationItem name="Name" time_last_message="00:00" last_message="Text text text text text" />
-                    <hr/>
-                    <ConversationItem name="Name" time_last_message="00:00" last_message="Text text text text text" />
-                    <hr/>
-                    <ConversationItem name="Name" time_last_message="00:00" last_message="Text text text text text" />
-                    <hr/>
-                    <ConversationItem name="Name" time_last_message="00:00" last_message="Text text text text text" />
-                </div>
+
+                <Conversation
+                    pkMember={pkMember}
+                    setPkConversationIsShow={setPkConversationIsShow}
+                />
+                
             </div>
-            <div className="session-right">
-                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flex: '1'}}>
-                    <h1 className="initial-text">Text text text text text text text</h1>
-                </div>
+            
+            <MessageSession
+                pkConversation={pkConversationIsShow}
+                pkMember={pkMember}
+            />
+
+            <div>
+
             </div>
         </div>
     );
