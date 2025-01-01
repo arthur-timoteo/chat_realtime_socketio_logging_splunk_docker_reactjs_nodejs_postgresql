@@ -13,7 +13,32 @@ class ContactRepository {
     async list(pk_member) {
 
         const result = await database.query(
-            'SELECT pk FROM contact AS c INNER JOIN member AS m ON c.fk_member_contact = m.pk WHERE c.fk_member = $1', 
+            'SELECT m.pk, m.first_name FROM contact AS c INNER JOIN member AS m ON c.fk_member_contact = m.pk WHERE c.fk_member = $1', 
+            [pk_member]
+        );
+        
+        return result.rows;
+    }
+
+    async listWithConversation(pk_member) {
+
+        const result = await database.query(
+            `SELECT tbmem.pk, tbmem.first_name FROM contact AS tbcont
+            INNER JOIN member AS tbmem
+            ON tbcont.fk_member = tbmem.pk
+            WHERE fk_member = $1
+            AND fk_member_contact NOT IN(
+                SELECT part.fk_member
+                FROM participant AS part
+                WHERE part.fk_member <> $1
+                AND fk_conversation IN(
+                    SELECT con.pk
+                    FROM conversation AS con 
+                    INNER JOIN participant AS par 
+                    ON con.pk = par.fk_conversation 
+                    WHERE par.fk_member = $1
+                )
+            )`, 
             [pk_member]
         );
         

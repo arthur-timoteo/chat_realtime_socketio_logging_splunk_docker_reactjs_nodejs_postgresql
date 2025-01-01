@@ -15,6 +15,8 @@ router.post('/account/signup', async (req, res) => {
     
     const result = await accountRepository.create(req.body);
 
+    console.log(result);
+
     if(!result)
     {
       res.status(500).json({ message: 'An error occurred while trying to create the member'});
@@ -48,13 +50,13 @@ router.post('/account/signin', async (req, res) => {
 
     const result = await accountRepository.signIn(req.body.email, req.body.password_signin, req.body.ip_address);
 
-    if(!result)
+    if(result == null)
     {
       res.status(500).json({ message: 'Error trying to sign-in'});
       return;
     } 
     
-    res.status(200).json({ message: 'Signed In with success'});
+    res.status(200).json({ message: 'Signed In with success', data: result});
   } catch (err) {
     // Print error in console
     console.error(err);
