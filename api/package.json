@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chat_realtime_socketio_logging_splunk_docker_reactjs_nodejs_postgresql": "file:",
     "express": "^4.19.2",
     "pg": "^8.12.0"
   }
