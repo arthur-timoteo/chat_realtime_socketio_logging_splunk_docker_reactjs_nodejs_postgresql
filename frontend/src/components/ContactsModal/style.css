@@ -1,0 +1,30 @@
+div.contacts-modal-area {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+div.contacts-modal-area > div.contacts-modal-header {
+    background-color: #fff;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+div.contacts-modal-area > div.contacts-modal-item {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5px 0;
+}
+
+div.contacts-modal-area > div.contacts-modal-item > span {
+    padding-left: 15px;
+}
+
+div.contacts-modal-area > div.contacts-modal-item > svg {
+    font-size: 20px;
+    padding-right: 15px;
+}
