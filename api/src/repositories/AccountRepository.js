@@ -4,34 +4,48 @@ class AccountRepository {
     async create(member) {
         const { first_name, email, password_signin, ip_address } = member;
 
-        if(await this.checkIfMemberAlreadyExists(email))
+        if(await !this.checkIfMemberAlreadyExists(email))
         {
+            console.log('aaaaaaaa');
             return false;
         }
 
-        await database.query(
-            'INSERT INTO member (first_name, email, password_signin, ip_address) VALUES ($1, $2, $3, $4);', 
-            [first_name, email, password_signin, ip_address]
-        );
+        try{
+            console.log('insert member');
+            await database.query(
+                'INSERT INTO member (first_name, email, password_signin, ip_address) VALUES ($1, $2, $3, $4);', 
+                [first_name, email, password_signin, ip_address]
+            );
+        }
+        catch(error){
+            console.log(error);
+            return false;
+        }
 
         return true;
     }
 
     async checkIfMemberAlreadyExists(email) {
 
-        const result = await database.query(
-            'SELECT COUNT(*) FROM member WHERE email = $1', 
-            [email]
-        );
+        try{
+            const result = await database.query(
+                'SELECT COUNT(*) FROM member WHERE email = $1', 
+                [email]
+            );
 
-        return result.rows[0].count;
+            return result.rows[0].count;
+        }
+        catch(error){
+            console.log(error);
+            return 0;
+        }
     }
 
     async signIn(email, password_signin, ip_address) {
 
         if(!await this.checkIfMemberAlreadyExists(email))
         {
-            return false;
+            return null;
         }
 
         const result = await database.query(
@@ -41,12 +55,12 @@ class AccountRepository {
         
         if(result.rows.length == 0)
         {
-            return false;
+            return null;
         }
 
         await this.logSignInHistory(result.rows[0].pk, ip_address);
         
-        return result.rows[0].count == 0 ? false : true;
+        return result.rows[0];
     }
 
     async logSignInHistory(fk_member, ip_address) {

@@ -22,7 +22,11 @@ class ConversationRepository {
 
         const result = await database.query(
             `SELECT 
-                con.*,
+                con.pk,
+                CASE
+                	WHEN con.title IS NULL THEN (SELECT first_name FROM member WHERE pk = (SELECT fk_member FROM participant WHERE fk_conversation = con.pk AND fk_member <> $1))
+                	ELSE con.title
+               	END AS title,
                 (
                     SELECT mem.first_name FROM message AS mes INNER JOIN member AS mem ON mes.fk_member = mem.pk WHERE fk_conversation = con.pk ORDER BY sent_at DESC LIMIT 1
                 ) AS last_message_sender,

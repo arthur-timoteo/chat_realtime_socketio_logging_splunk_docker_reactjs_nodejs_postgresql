@@ -46,4 +46,26 @@ router.get('/contact/list/:pk_member', async (req, res) => {
   }
 });
 
+router.get('/contact/list/conversation/:pk_member', async (req, res) => {
+  const pkMember = req.params.pk_member;
+
+try {
+
+  //Validate that all parameters have been provided
+  if(pkMember == null)
+  {
+    res.status(400).json({ message: 'The request is incorrect'});
+    return;
+  }
+  
+  const result = await contactRepository.listWithConversation(pkMember);
+
+  res.status(200).json(result);
+} catch (err) {
+  // Print error in console
+  console.error(err);
+  res.status(500).json({ message: 'Internal server error' });
+}
+});
+
 module.exports = router;
