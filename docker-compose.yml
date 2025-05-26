@@ -1,5 +1,20 @@
 services:
+  database:
+    image: postgres:13
+    container_name: database-postgres-13
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=chatproject
+    ports:
+      - '5435:5432'
+    volumes:
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - project_network
+
   api:
+    image: api-nodejs-20
     build: ./api
     container_name: api-node-20
     environment:
@@ -16,17 +31,14 @@ services:
     networks:
       - project_network
 
-  database:
-    image: postgres:13
-    container_name: database-postgres-13
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=chatproject
+  ui:
+    image: vite-reactjs-node-20
+    build: ./frontend
+    container_name: ui-node-20
     ports:
-      - '5435:5432'
-    volumes:
-      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - '3002:3002'
+    depends_on:
+      - api
     networks:
       - project_network
 
