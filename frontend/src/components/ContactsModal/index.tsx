@@ -15,6 +15,7 @@ interface Contact {
 
 export function ContactsModal({ pkMember }: ContactsModalProps) {
     const [contacts, setContacts] = useState<Contact[]>([]);
+    const [memberIdentifier, setMemberIdentifier] = useState<string>('');
     
     useEffect(() => {
         searchContacts();
@@ -24,16 +25,44 @@ export function ContactsModal({ pkMember }: ContactsModalProps) {
         try{
             await api.get(`/contact/list/${pkMember}`).then(response => setContacts(response.data));
         }
-        catch {
-            //setMessageToUser({ style: 'danger', message: 'Error to try sign-up' });
+        catch(error) {
+            console.log(error);
+        }
+    }
+
+    async function addContact(){
+        if(!memberIdentifier){
+            return;
+        }
+
+        try{
+            await api.post('/contact/add', { 
+                    fk_member: pkMember,
+                    fk_member_contact: memberIdentifier 
+                });
+            setMemberIdentifier('');
+            searchContacts();
+        }
+        catch(error) {
+            console.log(error);
         }
     }
 
     return (
         <div className="contacts-modal-area">
             <div className="contacts-modal-header">
-                <input type="text" name="email_contact" />
-                <button>ADD</button>
+                <div>
+                    <span>Code Contact:</span> 
+
+                    <input 
+                        type="text"
+                        name="member_identifier"
+                        value={memberIdentifier}
+                        onChange={ event => setMemberIdentifier(event.target.value) }
+                    />
+                </div>
+
+                <button onClick={addContact}>ADD</button>
             </div>
             {contacts.map(contact => {
                 return (

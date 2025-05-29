@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import './style.css';
 
 // Icons
-import { FaAddressBook, FaCircleArrowLeft } from "react-icons/fa6";
+import { FaAddressBook } from "react-icons/fa6";
 import { RiChatNewFill } from "react-icons/ri";
 import { MdGroupAdd } from "react-icons/md";
 
