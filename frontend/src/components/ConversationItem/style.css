@@ -5,6 +5,11 @@
     border-bottom: 1px solid #9c9c9c;
 }
 
+.conversation-block:hover {
+    background-color: var(--color-gray-3);
+    cursor: pointer;
+}
+
 .conversation-block > svg {
     font-size: 47px;
     padding: 0px 10px;
