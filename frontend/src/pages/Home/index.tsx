@@ -13,6 +13,7 @@ import { ContactsModal } from '../../components/ContactsModal/index';
 import { NewChatModal } from '../../components/NewChatModal/index';
 import Conversation from '../../components/Conversation';
 import MessageSession from '../../components/MessageSession';
+import { GroupModal } from '../../components/GroupModal';
 
 function Home() {
     const [isContactsModalOpen, setIsContactsModalOpen] = useState(false);
@@ -51,6 +52,11 @@ function Home() {
         closeChatModal();
         setPkConversationIsShow(pk_conversation);
     };
+    
+    const handleCreateGroup = (pk_conversation: string) => {
+        closeAddGroupModal();
+        setPkConversationIsShow(pk_conversation);
+    };
 
     return (
         <div className="home-content">
@@ -76,7 +82,10 @@ function Home() {
                                 closeModal={closeAddGroupModal}
                                 title='CREATE A GROUP'
                             >
-                                oi
+                                <GroupModal
+                                    pkMember={pkMember}
+                                    createGroup={handleCreateGroup}
+                                />
                             </Modal>
                         )}
 
