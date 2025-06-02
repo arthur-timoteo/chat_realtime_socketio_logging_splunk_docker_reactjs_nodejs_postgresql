@@ -28,3 +28,15 @@ div.contacts-modal-area > div.contacts-modal-item > svg {
     font-size: 20px;
     padding-right: 15px;
 }
+
+div.contacts-modal-area > div.contacts-modal-header > div > span {
+    margin-right: 0.5rem;
+    font-weight: bold;
+}
+
+div.contacts-modal-area > div.contacts-modal-header > button {
+    background-color: var(--color-primary-1);
+    color: #fff;
+    font-weight: bold;
+    border: none;
+}

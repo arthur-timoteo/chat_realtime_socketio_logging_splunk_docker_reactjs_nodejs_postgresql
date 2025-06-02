@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import './style.css';
 
 // Icons
-import { FaAddressBook, FaCircleArrowLeft } from "react-icons/fa6";
+import { FaAddressBook } from "react-icons/fa6";
 import { RiChatNewFill } from "react-icons/ri";
 import { MdGroupAdd } from "react-icons/md";
 
@@ -13,6 +13,7 @@ import { ContactsModal } from '../../components/ContactsModal/index';
 import { NewChatModal } from '../../components/NewChatModal/index';
 import Conversation from '../../components/Conversation';
 import MessageSession from '../../components/MessageSession';
+import { GroupModal } from '../../components/GroupModal';
 
 function Home() {
     const [isContactsModalOpen, setIsContactsModalOpen] = useState(false);
@@ -47,6 +48,16 @@ function Home() {
         setIsChatModalOpen(false);
     }
 
+    const handleContactSelectedToNewChat = (pk_conversation: string) => {
+        closeChatModal();
+        setPkConversationIsShow(pk_conversation);
+    };
+    
+    const handleCreateGroup = (pk_conversation: string) => {
+        closeAddGroupModal();
+        setPkConversationIsShow(pk_conversation);
+    };
+
     return (
         <div className="home-content">
             <div className="session-left">
@@ -61,6 +72,7 @@ function Home() {
                             >
                                 <NewChatModal
                                     pkMember={pkMember}
+                                    contactSelectedToNewChat={handleContactSelectedToNewChat} 
                                 />
                             </Modal>
                         )}
@@ -70,7 +82,10 @@ function Home() {
                                 closeModal={closeAddGroupModal}
                                 title='CREATE A GROUP'
                             >
-                                oi
+                                <GroupModal
+                                    pkMember={pkMember}
+                                    createGroup={handleCreateGroup}
+                                />
                             </Modal>
                         )}
 
