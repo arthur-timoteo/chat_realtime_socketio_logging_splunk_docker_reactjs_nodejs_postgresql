@@ -47,6 +47,11 @@ function Home() {
         setIsChatModalOpen(false);
     }
 
+    const handleContactSelectedToNewChat = (pk_conversation: string) => {
+        closeChatModal();
+        setPkConversationIsShow(pk_conversation);
+    };
+
     return (
         <div className="home-content">
             <div className="session-left">
@@ -61,6 +66,7 @@ function Home() {
                             >
                                 <NewChatModal
                                     pkMember={pkMember}
+                                    contactSelectedToNewChat={handleContactSelectedToNewChat} 
                                 />
                             </Modal>
                         )}

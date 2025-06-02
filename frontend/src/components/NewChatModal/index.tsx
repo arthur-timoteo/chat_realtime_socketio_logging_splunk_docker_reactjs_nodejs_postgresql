@@ -5,7 +5,8 @@ import { useEffect, useState } from 'react';
 import { api } from '../../services/axios';
 
 interface ContactsModalProps {
-    pkMember: string
+    pkMember: string,
+    contactSelectedToNewChat: (pk_conversation: string) => void 
 }
 
 interface Contact {
@@ -13,7 +14,7 @@ interface Contact {
     first_name: string
 }
 
-export function NewChatModal({ pkMember }: ContactsModalProps) {
+export function NewChatModal({ pkMember, contactSelectedToNewChat }: ContactsModalProps) {
     const [contacts, setContacts] = useState<Contact[]>([]);
     
     useEffect(() => {
@@ -22,14 +23,28 @@ export function NewChatModal({ pkMember }: ContactsModalProps) {
 
     async function searchContacts(){
         try{
-            console.log(pkMember);
-            //await api.get(`/contact/list/conversation/${pkMember}`).then(response =>setContacts(response.data));
-            await api.get(`/contact/list/conversation/${pkMember}`).then(response => console.log(response.data));
-            
-            console.log(contacts);
+            await api.get(`/contact/list/conversation/${pkMember}`).then(response =>setContacts(response.data));
         }
-        catch {
-            //setMessageToUser({ style: 'danger', message: 'Error to try sign-up' });
+        catch(error) {
+            console.log(error);
+        }
+    }
+
+    async function createNewChat(pkContact: string) {
+        try{
+            const result = await api.post('/conversation/create', {
+                type_conversation: 0, 
+                title: null, 
+                list_pk_member: [
+                    pkMember,
+                    pkContact
+                ]
+            });
+
+            contactSelectedToNewChat(result.data.data.pk_conversation);
+        }
+        catch(error) {
+            console.log(error);
         }
     }
 
@@ -37,7 +52,11 @@ export function NewChatModal({ pkMember }: ContactsModalProps) {
         <div className="newchat-modal-area">
             {contacts.map(contact => {
                 return (
-                    <a className="newchat-modal-item" key={contact.pk}>
+                    <a 
+                        className="newchat-modal-item" 
+                        key={contact.pk} 
+                        onClick={createNewChat.bind(null, contact.pk)}
+                    >
                         <span>{contact.first_name}</span>
                         <RiChatNewFill className="icon" />
                     </a>
