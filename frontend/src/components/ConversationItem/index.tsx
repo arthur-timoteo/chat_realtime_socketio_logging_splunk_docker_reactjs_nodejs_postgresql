@@ -12,7 +12,10 @@ type ConversationItemProps = {
 function ConversationItem({pk, title, last_message, time_last_message, setPkConversationIsShow} : ConversationItemProps) {
 
     return (
-        <div className="conversation-block">
+        <div 
+            className="conversation-block" 
+            onClick={() => setPkConversationIsShow(pk)}
+        >
             <FaCircleUser />
             <div className="conversation-block-infos">
                 <div className="conversation-block-infos-line">
@@ -27,8 +30,6 @@ function ConversationItem({pk, title, last_message, time_last_message, setPkConv
                     <p>{last_message}</p>
                 )}
             </div>
-
-            <a onClick={() => setPkConversationIsShow(pk)}>Click</a>
         </div>
     );
 }
