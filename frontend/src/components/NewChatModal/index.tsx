@@ -50,18 +50,24 @@ export function NewChatModal({ pkMember, contactSelectedToNewChat }: ContactsMod
 
     return (
         <div className="newchat-modal-area">
-            {contacts.map(contact => {
-                return (
-                    <a 
-                        className="newchat-modal-item" 
-                        key={contact.pk} 
-                        onClick={createNewChat.bind(null, contact.pk)}
-                    >
-                        <span>{contact.first_name}</span>
-                        <RiChatNewFill className="icon" />
-                    </a>
-                )
-            })}
+            {contacts.length === 0 ? (
+                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flex: '1'}}>
+                    <p>You already have a chat with all your contacts</p>
+                </div>
+            ) : (
+                contacts.map(contact => {
+                    return (
+                        <a 
+                            className="newchat-modal-item" 
+                            key={contact.pk} 
+                            onClick={createNewChat.bind(null, contact.pk)}
+                        >
+                            <span>{contact.first_name}</span>
+                            <RiChatNewFill className="icon" />
+                        </a>
+                    )
+                })
+            )}
         </div>
     )
 }
