@@ -19,7 +19,7 @@ class MessageRepository {
                 mes.sent_at
             FROM message AS mes 
             WHERE mes.fk_conversation = $1
-            ORDER BY mes.sent_at DESC`, 
+            ORDER BY mes.sent_at ASC`, 
             [pk_conversation]
         );
         
