@@ -39,6 +39,35 @@ class ConversationRepository {
         
         return result.rows;
     }
+
+    async findOneByParticipants(type_conversation, pk_member_list) {
+        var query = `SELECT 
+            con.pk
+            FROM conversation AS con`;
+
+        for (let i = 0; i < pk_member_list.length; i++) {
+            query += `\n INNER JOIN participant AS par${i} 
+            ON con.pk = par${i}.fk_conversation`;
+        }
+
+        query += `\n WHERE con.type_conversation = ${type_conversation === 0 ? 'false' : 'true'}`;
+
+        for (let i = 0; i < pk_member_list.length; i++) {
+            query += `\n AND par${i}.fk_member = '${pk_member_list[i]}'`;
+        }
+        
+        const result = await database.query(query);
+        
+        return result.rows;
+    }
+
+    formatPkMemberList(list_pk_member) {
+        if (list_pk_member == null || list_pk_member.length === 0) {
+            return '';
+        }
+
+        return list_pk_member.map(pk => `'${pk}'`).join(',');
+    }
 }
   
 module.exports = new ConversationRepository();

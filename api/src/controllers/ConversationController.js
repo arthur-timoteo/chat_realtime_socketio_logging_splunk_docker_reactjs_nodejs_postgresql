@@ -18,10 +18,30 @@ router.post('/conversation/create', async (req, res) => {
       res.status(400).json({ message: 'The supplied object is incorrect'});
       return;
     }
+
+    //Validate that conversation already exists
+    var conversationAlreadyExists = await conversationRepository.findOneByParticipants(type_conversation, list_pk_member);
+    
+    if(conversationAlreadyExists != null && conversationAlreadyExists.length > 0){
+      res.status(400).json({ 
+        message: 'This conversation already exists',
+        data: {
+          pk_conversation: conversationAlreadyExists[0].pk
+        }
+      });
+      return;
+    }
     
     await conversationRepository.create(type_conversation, title, list_pk_member);
 
-    res.status(201).json({ message: 'Conversation created with success'});
+    const conversationCreated = await conversationRepository.findOneByParticipants(type_conversation, list_pk_member);
+
+    res.status(201).json({ 
+      message: 'Conversation created with success',
+      data: {
+        pk_conversation: conversationCreated[0].pk
+      }
+    });
   } catch (err) {
     // Print error in console
     console.error(err);
