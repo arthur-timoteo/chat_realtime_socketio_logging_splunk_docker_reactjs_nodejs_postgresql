@@ -27,15 +27,28 @@
 .message-item {
     display: flex;
     flex-direction: column;
-    background-color: blueviolet;
     padding: 8px;
     border-radius: 10px;
     max-width: 50%;
+    margin-top: 0.3rem;
+}
+
+.message-sender > .message-item {
+    background-color: var(--color-primary-2);
+    color: #fff;
+}
+
+.message-recipient > .message-item {
+    background-color: var(--color-gray-2);
+    color: #000;
 }
 
 .message-date {
     font-size: 10px;
     text-align: end;
+    display: flex;
+    justify-content: space-between;
+    gap: 0.3rem;
 }
 
 .message-write {
