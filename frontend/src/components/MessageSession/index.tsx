@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './style.css';
 import { api } from '../../services/axios';
 import { FiSend } from "react-icons/fi";
+import { format } from 'date-fns';
 
 type MessageSessionProps = {
     pkConversation: string | undefined,
@@ -59,7 +60,10 @@ function MessageSession({ pkConversation, pkMember } : MessageSessionProps) {
                                     >
                                         <div className="message-item">
                                             <span className="message-text">{message.content_text}</span>
-                                            <span className="message-date">{message.sent_at}</span>
+                                            <span className="message-date">
+                                                <span>{format(message.sent_at, 'HH:mm')}</span>
+                                                <span>{format(message.sent_at, 'dd/MM/yyyy')}</span>
+                                            </span>
                                         </div>
                                     </div>
                                 )
