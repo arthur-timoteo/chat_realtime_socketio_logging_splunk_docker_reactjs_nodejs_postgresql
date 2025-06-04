@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import './style.css';
 
 // Icons
-import { FaAddressBook } from "react-icons/fa6";
+import { FaAddressBook, FaPowerOff } from "react-icons/fa6";
 import { RiChatNewFill } from "react-icons/ri";
 import { MdGroupAdd } from "react-icons/md";
 
@@ -23,6 +23,8 @@ function Home() {
 
     const location = useLocation();
     const pkMember = location.state?.pk;
+
+    const navigate = useNavigate();
 
     function openContactsModal(){
         setIsContactsModalOpen(true);
@@ -58,11 +60,14 @@ function Home() {
         setPkConversationIsShow(pk_conversation);
     };
 
+    function signOut(){
+        navigate('/');
+    }
+
     return (
         <div className="home-content">
             <div className="session-left">
                 <div className="menu-bar">
-                    <h3>Name</h3>
                     <div className="menu-items">
 
                         {isChatModalOpen && (
@@ -104,6 +109,8 @@ function Home() {
                         <MdGroupAdd onClick={openAddGroupModal} className="icon" />
                         <FaAddressBook onClick={openContactsModal} className="icon" />
                     </div>
+
+                    <FaPowerOff className="icon" onClick={signOut} />
                 </div>
 
                 <Conversation
