@@ -1,12 +1,12 @@
 const database = require('../database/database_connection');
 
 class MessageRepository {
-    async create(fk_conversation, fk_member, content_text) {
+    async create(fk_conversation, fk_member, content_text, dt_created = 'CURRENT_DATE') {
+        let query = 'INSERT INTO message (fk_conversation, fk_member, content_text, sent_at) VALUES ($1, $2, $3, $4) RETURNING pk;';
 
-        await database.query(
-            'INSERT INTO message (fk_conversation, fk_member, content_text) VALUES ($1, $2, $3);', 
-            [fk_conversation, fk_member, content_text]
-        );
+        const result = await database.query(query, [fk_conversation, fk_member, content_text, dt_created]);
+
+        return result.rows[0].pk;
     }
 
     async list(pk_conversation) {
