@@ -15,6 +15,8 @@ import Conversation from '../../components/Conversation';
 import MessageSession from '../../components/MessageSession';
 import { GroupModal } from '../../components/GroupModal';
 
+import { SocketProvider } from '../../services/SocketContext';
+
 function Home() {
     const [isContactsModalOpen, setIsContactsModalOpen] = useState(false);
     const [isAddGroupModalOpen, setIsAddGroupModalOpen] = useState(false);
@@ -66,64 +68,67 @@ function Home() {
 
     return (
         <div className="home-content">
-            <div className="session-left">
-                <div className="menu-bar">
-                    <div className="menu-items">
+            <SocketProvider>
+                <div className="session-left">
+                    <div className="menu-bar">
+                        <div className="menu-items">
 
-                        {isChatModalOpen && (
-                            <Modal 
-                                closeModal={closeChatModal}
-                                title='NEW CHAT'
-                            >
-                                <NewChatModal
-                                    pkMember={pkMember}
-                                    contactSelectedToNewChat={handleContactSelectedToNewChat} 
-                                />
-                            </Modal>
-                        )}
+                            {isChatModalOpen && (
+                                <Modal 
+                                    closeModal={closeChatModal}
+                                    title='NEW CHAT'
+                                >
+                                    <NewChatModal
+                                        pkMember={pkMember}
+                                        contactSelectedToNewChat={handleContactSelectedToNewChat} 
+                                    />
+                                </Modal>
+                            )}
 
-                        {isAddGroupModalOpen && (
-                            <Modal 
-                                closeModal={closeAddGroupModal}
-                                title='CREATE A GROUP'
-                            >
-                                <GroupModal
-                                    pkMember={pkMember}
-                                    createGroup={handleCreateGroup}
-                                />
-                            </Modal>
-                        )}
+                            {isAddGroupModalOpen && (
+                                <Modal 
+                                    closeModal={closeAddGroupModal}
+                                    title='CREATE A GROUP'
+                                >
+                                    <GroupModal
+                                        pkMember={pkMember}
+                                        createGroup={handleCreateGroup}
+                                    />
+                                </Modal>
+                            )}
 
-                        {isContactsModalOpen && (
-                            <Modal 
-                                closeModal={closeContactsModal}
-                                title='CONTACTS'
-                            >
-                                <ContactsModal
-                                    pkMember={pkMember}
-                                />
-                            </Modal>
-                        )}
-                        
-                        <RiChatNewFill onClick={openChatModal} className="icon" />
-                        <MdGroupAdd onClick={openAddGroupModal} className="icon" />
-                        <FaAddressBook onClick={openContactsModal} className="icon" />
+                            {isContactsModalOpen && (
+                                <Modal 
+                                    closeModal={closeContactsModal}
+                                    title='CONTACTS'
+                                >
+                                    <ContactsModal
+                                        pkMember={pkMember}
+                                    />
+                                </Modal>
+                            )}
+                            
+                            <RiChatNewFill onClick={openChatModal} className="icon" />
+                            <MdGroupAdd onClick={openAddGroupModal} className="icon" />
+                            <FaAddressBook onClick={openContactsModal} className="icon" />
+                        </div>
+
+                        <FaPowerOff className="icon" onClick={signOut} />
                     </div>
 
-                    <FaPowerOff className="icon" onClick={signOut} />
+                    <Conversation
+                        pkMember={pkMember}
+                        setPkConversationIsShow={setPkConversationIsShow}
+                    />
+                    
                 </div>
-
-                <Conversation
-                    pkMember={pkMember}
-                    setPkConversationIsShow={setPkConversationIsShow}
-                />
                 
-            </div>
-            
-            <MessageSession
-                pkConversation={pkConversationIsShow}
-                pkMember={pkMember}
-            />
+                <MessageSession
+                    pkConversation={pkConversationIsShow}
+                    pkMember={pkMember}
+                />
+
+            </SocketProvider>
 
             <div>
 
