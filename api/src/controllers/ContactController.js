@@ -58,7 +58,7 @@ try {
     return;
   }
   
-  const result = await contactRepository.listWithConversation(pkMember);
+  const result = await contactRepository.listWithoutConversation(pkMember);
 
   res.status(200).json(result);
 } catch (err) {

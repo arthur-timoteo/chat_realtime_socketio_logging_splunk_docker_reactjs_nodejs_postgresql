@@ -20,12 +20,12 @@ class ContactRepository {
         return result.rows;
     }
 
-    async listWithConversation(pk_member) {
+    async listWithoutConversation(pk_member) {
 
         const result = await database.query(
             `SELECT tbmem.pk, tbmem.first_name FROM contact AS tbcont
             INNER JOIN member AS tbmem
-            ON tbcont.fk_member = tbmem.pk
+            ON tbcont.fk_member_contact = tbmem.pk
             WHERE fk_member = $1
             AND fk_member_contact NOT IN(
                 SELECT part.fk_member
