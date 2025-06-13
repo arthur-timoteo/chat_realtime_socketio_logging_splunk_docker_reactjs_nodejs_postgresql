@@ -65,7 +65,11 @@
     width: 100%;
 }
 
-.message-write > .sent {
+.message-write a, .message-write a:hover {
+    color: #000;
+}
+
+.message-write a > .sent {
     font-size: 30px;
     margin: 0 20px;
 }

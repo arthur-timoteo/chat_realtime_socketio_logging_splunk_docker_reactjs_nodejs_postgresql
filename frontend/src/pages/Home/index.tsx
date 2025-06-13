@@ -108,12 +108,32 @@ function Home() {
                                 </Modal>
                             )}
                             
-                            <RiChatNewFill onClick={openChatModal} className="icon" />
-                            <MdGroupAdd onClick={openAddGroupModal} className="icon" />
-                            <FaAddressBook onClick={openContactsModal} className="icon" />
+                            <a
+                                title="Create a new chat"
+                                onClick={openChatModal}
+                            >
+                                <RiChatNewFill className="icon" />
+                            </a>
+                            <a
+                                title="Create a new group"
+                                onClick={openAddGroupModal}
+                            >
+                                <MdGroupAdd className="icon" />
+                            </a>
+                            <a
+                                title="Manage contacts"
+                                onClick={openContactsModal}
+                            >
+                                <FaAddressBook className="icon" />
+                            </a>
                         </div>
 
-                        <FaPowerOff className="icon" onClick={signOut} />
+                        <a
+                            title="Sign Out"
+                            onClick={signOut}
+                        >
+                            <FaPowerOff className="icon" />
+                        </a>
                     </div>
 
                     <Conversation

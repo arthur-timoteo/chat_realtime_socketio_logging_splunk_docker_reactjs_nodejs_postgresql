@@ -120,7 +120,11 @@ function MessageSession({ pkConversation, pkMember } : MessageSessionProps) {
                             name="comments"
                             value={message}
                             onChange={event => setMessage(event.target.value)} />
-                        <FiSend className="sent" onClick={sendMessage}/>
+                        <a
+                            title="Send message"
+                            onClick={sendMessage}>
+                            <FiSend className="sent"/>
+                        </a>
                     </div>
                 </>
             )}
