@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './style.css';
 import { api } from '../../services/axios';
 import { FiSend } from "react-icons/fi";
@@ -21,6 +21,7 @@ function MessageSession({ pkConversation, pkMember } : MessageSessionProps) {
     const [messages, setMessages] = useState<Message[]>([]);
     const [message, setMessage] = useState('');
     const socket = useSocket();
+    const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
         searchMessages();
@@ -37,6 +38,10 @@ function MessageSession({ pkConversation, pkMember } : MessageSessionProps) {
             socket?.off('receiveMessage');
         };
     },[socket, pkConversation]);
+
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [messages]);
 
     async function searchMessages(){
         if (!pkConversation) {
@@ -105,6 +110,8 @@ function MessageSession({ pkConversation, pkMember } : MessageSessionProps) {
                                     </div>
                                 )
                             })}
+                            
+                            <div ref={messagesEndRef} />
                         </div>
                     )}
                     <div className="message-write">
