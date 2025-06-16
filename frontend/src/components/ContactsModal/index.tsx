@@ -1,4 +1,4 @@
-import { FaTrashCan } from "react-icons/fa6";
+import { FaCircleUser, FaTrashCan } from "react-icons/fa6";
 
 import './style.css';
 import { useEffect, useState } from 'react';
@@ -62,13 +62,19 @@ export function ContactsModal({ pkMember }: ContactsModalProps) {
                     />
                 </div>
 
-                <button onClick={addContact}>ADD</button>
+                <button onClick={addContact} title="Add contact">ADD</button>
             </div>
             {contacts.map(contact => {
                 return (
                     <div className="contacts-modal-item" key={contact.pk}>
-                        <span>{contact.first_name}</span>
-                        <FaTrashCan className="icon" />
+                        <div className="contact-infos">
+                            <FaCircleUser />
+                            <span>{contact.first_name}</span>
+                        </div>
+
+                        <a title="Delete contact">
+                            <FaTrashCan className="icon" />
+                        </a>
                     </div>
                 )
             })}
