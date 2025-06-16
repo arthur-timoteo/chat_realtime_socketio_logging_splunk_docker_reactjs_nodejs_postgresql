@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import './style.css';
 
 // Icons
-import { FaAddressBook, FaPowerOff } from "react-icons/fa6";
+import { FaAddressBook, FaCircleInfo, FaPowerOff } from "react-icons/fa6";
 import { RiChatNewFill } from "react-icons/ri";
 import { MdGroupAdd } from "react-icons/md";
 
@@ -16,11 +16,13 @@ import MessageSession from '../../components/MessageSession';
 import { GroupModal } from '../../components/GroupModal';
 
 import { SocketProvider } from '../../services/SocketContext';
+import { UserInfosModal } from '../../components/UserInfosModal';
 
 function Home() {
     const [isContactsModalOpen, setIsContactsModalOpen] = useState(false);
     const [isAddGroupModalOpen, setIsAddGroupModalOpen] = useState(false);
     const [isChatModalOpen, setIsChatModalOpen] = useState(false);
+    const [isUserInfosModalOpen, setIsUserInfosModalOpen] = useState(false);
     const [pkConversationIsShow, setPkConversationIsShow] = useState<string>();
 
     const location = useLocation();
@@ -50,6 +52,14 @@ function Home() {
     
     function closeChatModal(){
         setIsChatModalOpen(false);
+    }
+    
+    function openUserInfosModal(){
+        setIsUserInfosModalOpen(true);
+    }
+    
+    function closeUserInfosModal(){
+        setIsUserInfosModalOpen(false);
     }
 
     const handleContactSelectedToNewChat = (pk_conversation: string) => {
@@ -108,32 +118,37 @@ function Home() {
                                 </Modal>
                             )}
                             
-                            <a
-                                title="Create a new chat"
-                                onClick={openChatModal}
-                            >
+                            {isUserInfosModalOpen && (
+                                <Modal 
+                                    closeModal={closeUserInfosModal}
+                                    title='USER INFORMATIONS'
+                                >
+                                    <UserInfosModal
+                                        pkMember={pkMember}
+                                    />
+                                </Modal>
+                            )}
+                            
+                            <a title="Create a new chat" onClick={openChatModal}>
                                 <RiChatNewFill className="icon" />
                             </a>
-                            <a
-                                title="Create a new group"
-                                onClick={openAddGroupModal}
-                            >
+                            <a title="Create a new group" onClick={openAddGroupModal}>
                                 <MdGroupAdd className="icon" />
                             </a>
-                            <a
-                                title="Manage contacts"
-                                onClick={openContactsModal}
-                            >
+                            <a title="Manage contacts" onClick={openContactsModal}>
                                 <FaAddressBook className="icon" />
                             </a>
                         </div>
 
-                        <a
-                            title="Sign Out"
-                            onClick={signOut}
-                        >
-                            <FaPowerOff className="icon" />
-                        </a>
+                        <div>
+                            <a title="User Informations" onClick={openUserInfosModal}>
+                                <FaCircleInfo className="icon" />
+                            </a>
+
+                            <a title="Sign Out" onClick={signOut}>
+                                <FaPowerOff className="icon" />
+                            </a>
+                        </div>
                     </div>
 
                     <Conversation

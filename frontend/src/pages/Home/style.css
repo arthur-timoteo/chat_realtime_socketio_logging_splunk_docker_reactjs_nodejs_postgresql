@@ -26,11 +26,11 @@
     padding: 15px 10px;
 }
 
-.menu-items a, .menu-items a:hover, .menu-bar a, .menu-bar a:hover {
-    color: black;
-}
-
-.menu-items .icon {
+.menu-bar .icon {
     font-size: 25px;
     margin: 0px 10px;
+}
+
+.menu-items a, .menu-items a:hover, .menu-bar a, .menu-bar a:hover {
+    color: black;
 }
