@@ -76,28 +76,36 @@ export function GroupModal({ pkMember, createGroup }: GroupModalProps) {
 
     return (
         <div className="group-modal-area">
-            <div className="group-modal-header">
-                <div>
-                    <span>Title:</span> 
 
-                    <input 
-                        type="text"
-                        name="title_conversation"
-                        value={titleGroup}
-                        onChange={ event => setTitleGroup(event.target.value) }
-                    />
+            {contacts.length === 0 ? (
+                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flex: '1'}}>
+                    <p>You do not have any contact</p>
                 </div>
-                <div className="group-modal-header-selected-contacts">
-                    {selectedContacts.map((contact) => (
-                        <span key={contact.pk} style={{ marginRight: '10px' }}>
-                            <FaCircleUser />
-                            {contact.first_name}
-                            <button onClick={() => handleRemove(contact)}> X </button>
-                        </span>
-                    ))}
-                </div>
-                <button onClick={createGroupChat}>CREATE GROUP</button>
-            </div>
+            ) : (
+                    <div className="group-modal-header">
+                        <div>
+                            <span>Title:</span> 
+
+                            <input 
+                                type="text"
+                                name="title_conversation"
+                                value={titleGroup}
+                                onChange={ event => setTitleGroup(event.target.value) }
+                            />
+                        </div>
+                        <div className="group-modal-header-selected-contacts">
+                            {selectedContacts.map((contact) => (
+                                <span key={contact.pk} style={{ marginRight: '10px' }}>
+                                    <FaCircleUser />
+                                    {contact.first_name}
+                                    <button onClick={() => handleRemove(contact)}> X </button>
+                                </span>
+                            ))}
+                        </div>
+                        <button onClick={createGroupChat}>CREATE GROUP</button>
+                    </div>
+            )}
+
             {contacts.map(contact => {
                 return (
                     <div className="group-modal-item" key={contact.pk}>
