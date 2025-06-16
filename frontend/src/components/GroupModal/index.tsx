@@ -1,6 +1,7 @@
 import './style.css';
 import { useEffect, useState } from 'react';
 import { api } from '../../services/axios';
+import { FaCircleUser } from 'react-icons/fa6';
 
 interface GroupModalProps {
     pkMember: string,
@@ -89,6 +90,7 @@ export function GroupModal({ pkMember, createGroup }: GroupModalProps) {
                 <div className="group-modal-header-selected-contacts">
                     {selectedContacts.map((contact) => (
                         <span key={contact.pk} style={{ marginRight: '10px' }}>
+                            <FaCircleUser />
                             {contact.first_name}
                             <button onClick={() => handleRemove(contact)}> X </button>
                         </span>
@@ -99,7 +101,11 @@ export function GroupModal({ pkMember, createGroup }: GroupModalProps) {
             {contacts.map(contact => {
                 return (
                     <div className="group-modal-item" key={contact.pk}>
-                        <span>{contact.first_name}</span>
+                        <div className="contact-infos">
+                            <FaCircleUser />
+                            <span>{contact.first_name}</span>
+                        </div>
+
                         <input 
                             type="checkbox"
                             name="add_in_conversation"
