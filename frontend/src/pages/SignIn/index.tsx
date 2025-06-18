@@ -80,14 +80,14 @@ function SignIn() {
                     />
                 </div>
 
-                <button type="submit" disabled={isLoading}>
+                <button type="submit" disabled={isLoading} title="Sign-in">
                     {!isLoading ? (<>SIGN-IN</>) 
                     : (<>Loading <FaSpinner className="icon" /></>)}
                 </button>
             </form>
 
-            <a className="link-forgot-password">Forgot your password? Click here</a>
-            <a className="link-create-account" onClick={doNotHaveAnAccount}>Don't have an account yet? Click here to create an account</a>
+            <a className="link-forgot-password" title="Forgot your password? Click here">Forgot your password? Click here</a>
+            <a className="link-create-account" onClick={doNotHaveAnAccount} title="Click here to create an account">Don't have an account yet? Click here to create an account</a>
         </div>
     );
 }

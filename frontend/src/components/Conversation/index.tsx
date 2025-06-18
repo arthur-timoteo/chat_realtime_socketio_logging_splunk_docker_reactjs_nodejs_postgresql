@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import ConversationItem from '../ConversationItem';
 import './style.css';
 import { api } from '../../services/axios';
+import { useSocket } from '../../services/SocketContext';
 
 type ConversationProps = {
     pkMember: string,
@@ -17,10 +18,29 @@ interface Conversation {
 
 function Conversation({ pkMember, setPkConversationIsShow } : ConversationProps ) {
     const [conversations, setConversations] = useState<Conversation[]>([]);
+    const socket = useSocket();
 
     useEffect(() => {
         searchConversations();
-    },[]);
+
+        // Listen for updates from any user conversation
+        socket?.on(`conversation:update:${pkMember}`, (updatedConversation) => {
+            setConversations((prev) => {
+                let conversationItem = prev.find(c => c.pk === updatedConversation.pk);
+                conversationItem!.last_message_sender = updatedConversation.last_message_sender;
+                conversationItem!.last_message_text = updatedConversation.last_message_text;
+
+                let indexFromConversation = prev.findIndex(c => c.pk === updatedConversation.pk);
+                prev.splice(indexFromConversation, 1);
+
+                return [conversationItem!, ...prev];
+            });
+        });
+
+        return () => {
+            socket?.off(`conversation:update${pkMember}`);
+        };
+    },[socket]);
 
     async function searchConversations(){
         try

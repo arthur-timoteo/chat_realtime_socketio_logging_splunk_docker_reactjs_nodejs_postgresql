@@ -17,16 +17,35 @@ div.contacts-modal-area > div.contacts-modal-item {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 5px 0;
+    padding: 10px 0;
+    border-bottom: solid var(--color-gray-2) 1px;
 }
 
-div.contacts-modal-area > div.contacts-modal-item > span {
+div.contacts-modal-area > div.contacts-modal-item:last-child {
+    border-bottom: none;
+}
+
+div.contacts-modal-area > div.contacts-modal-item div.contact-infos {
+    display: flex;
+    align-items: center;
+}
+
+div.contacts-modal-area > div.contacts-modal-item div.contact-infos > svg {
     padding-left: 15px;
+    font-size: 30px;
 }
 
-div.contacts-modal-area > div.contacts-modal-item > svg {
+div.contacts-modal-area > div.contacts-modal-item div.contact-infos > span {
+    padding-left: 10px;
+}
+
+div.contacts-modal-area > div.contacts-modal-item a > svg {
     font-size: 20px;
     padding-right: 15px;
+}
+
+div.contacts-modal-area > div.contacts-modal-item a > svg:hover {
+    color: red;
 }
 
 div.contacts-modal-area > div.contacts-modal-header > div > span {
