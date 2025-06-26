@@ -44,6 +44,15 @@ class ContactRepository {
         
         return result.rows;
     }
+
+    async delete(pk_member, pk_member_contact) {
+
+        await database.query(
+            'DELETE FROM contact WHERE fk_member = $1 AND fk_member_contact = $2;', 
+            [pk_member, pk_member_contact]
+        );
+
+    }
 }
   
 module.exports = new ContactRepository();
