@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 import { useSocket } from '../../services/SocketContext';
 
 type MessageSessionProps = {
-    pkConversation: string | undefined,
+    conversation: ConversationActive | undefined,
     pkMember: string
 }
 
@@ -17,7 +17,12 @@ interface Message {
     sent_at: string
 }
 
-function MessageSession({ pkConversation, pkMember } : MessageSessionProps) {
+interface ConversationActive {
+    pk: string | undefined;
+    title: string | null;
+}
+
+function MessageSession({ conversation, pkMember } : MessageSessionProps) {
     const [messages, setMessages] = useState<Message[]>([]);
     const [message, setMessage] = useState('');
     const socket = useSocket();
@@ -26,31 +31,36 @@ function MessageSession({ pkConversation, pkMember } : MessageSessionProps) {
     useEffect(() => {
         searchMessages();
 
-        // Connects the user in the conversation room
-        socket?.emit('joinRoom', pkConversation);
+        if (conversation) {
+            if(conversation.pk){
+                // Connects the user in the conversation room
+                socket?.emit('joinRoom', conversation.pk);
 
-        // Listen for incoming messages
-        socket?.on('receiveMessage', (msg: Message) => {
-            setMessages((prev) => [...prev, msg]);
-        });
+                // Listen for incoming messages
+                socket?.on('receiveMessage', (msg: Message) => {
+                    setMessages((prev) => [...prev, msg]);
+                });
 
-        return () => {
-            socket?.off('receiveMessage');
-        };
-    },[socket, pkConversation]);
+                return () => {
+                    socket?.off('receiveMessage');
+                };
+            }
+        }
+        
+    },[socket, conversation]);
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
 
     async function searchMessages(){
-        if (!pkConversation) {
+        if (!conversation) {
             return;
         }
 
         try
         {
-            await api.get(`/message/list/${pkConversation}`).then(response => setMessages(response.data));
+            await api.get(`/message/list/${conversation.pk}`).then(response => setMessages(response.data));
         }
         catch {
             console.log('error');
@@ -68,10 +78,12 @@ function MessageSession({ pkConversation, pkMember } : MessageSessionProps) {
                 pk: '',
                 fk_member: pkMember,
                 content_text: message,
+                title: conversation?.title || null,
                 sent_at: format(new Date(), 'yyyy-MM-dd HH:mm:ss')
             };
             
-            socket?.emit('sendMessage', { pkConversation, messageFormated });
+            let pkConversation = conversation!.pk;
+            socket?.emit('sendMessage', { pkConversation , messageFormated });
             setMessage('');
         }
         catch {
@@ -82,7 +94,7 @@ function MessageSession({ pkConversation, pkMember } : MessageSessionProps) {
     return (
         <div className="session-right">
 
-            {pkConversation == undefined ? (
+            {conversation == undefined ? (
                 <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flex: '1'}}>
                     <h1>Start a chat</h1>
                 </div>

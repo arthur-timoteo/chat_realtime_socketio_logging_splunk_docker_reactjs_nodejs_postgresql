@@ -18,12 +18,17 @@ import { GroupModal } from '../../components/GroupModal';
 import { SocketProvider } from '../../services/SocketContext';
 import { UserInfosModal } from '../../components/UserInfosModal';
 
+interface ConversationActive {
+    pk: string;
+    title: string | null;
+}
+
 function Home() {
     const [isContactsModalOpen, setIsContactsModalOpen] = useState(false);
     const [isAddGroupModalOpen, setIsAddGroupModalOpen] = useState(false);
     const [isChatModalOpen, setIsChatModalOpen] = useState(false);
     const [isUserInfosModalOpen, setIsUserInfosModalOpen] = useState(false);
-    const [pkConversationIsShow, setPkConversationIsShow] = useState<string>();
+    const [conversationIsShow, setConversationIsShow] = useState<ConversationActive>();
 
     const location = useLocation();
     const pkMember = location.state?.pk;
@@ -64,12 +69,12 @@ function Home() {
 
     const handleContactSelectedToNewChat = (pk_conversation: string) => {
         closeChatModal();
-        setPkConversationIsShow(pk_conversation);
+        setConversationIsShow({ pk: pk_conversation, title: null });
     };
     
-    const handleCreateGroup = (pk_conversation: string) => {
+    const handleCreateGroup = (pk_conversation: string, title: string | null) => {
         closeAddGroupModal();
-        setPkConversationIsShow(pk_conversation);
+        setConversationIsShow({ pk: pk_conversation, title });
     };
 
     function signOut(){
@@ -153,13 +158,13 @@ function Home() {
 
                     <Conversation
                         pkMember={pkMember}
-                        setPkConversationIsShow={setPkConversationIsShow}
+                        setConversationIsShow={setConversationIsShow}
                     />
                     
                 </div>
                 
                 <MessageSession
-                    pkConversation={pkConversationIsShow}
+                    conversation={conversationIsShow}
                     pkMember={pkMember}
                 />
 

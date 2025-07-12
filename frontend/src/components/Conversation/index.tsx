@@ -6,7 +6,7 @@ import { useSocket } from '../../services/SocketContext';
 
 type ConversationProps = {
     pkMember: string,
-    setPkConversationIsShow: (pkConversation: string) => void
+    setConversationIsShow: (conversation: ConversationActive) => void
 }
 
 interface Conversation {
@@ -16,7 +16,12 @@ interface Conversation {
     last_message_text: string | null
 }
 
-function Conversation({ pkMember, setPkConversationIsShow } : ConversationProps ) {
+interface ConversationActive {
+    pk: string;
+    title: string | null;
+}
+
+function Conversation({ pkMember, setConversationIsShow } : ConversationProps ) {
     const [conversations, setConversations] = useState<Conversation[]>([]);
     const socket = useSocket();
 
@@ -27,11 +32,18 @@ function Conversation({ pkMember, setPkConversationIsShow } : ConversationProps 
         socket?.on(`conversation:update:${pkMember}`, (updatedConversation) => {
             setConversations((prev) => {
                 let conversationItem = prev.find(c => c.pk === updatedConversation.pk);
+
+                if (!conversationItem) {
+                    conversationItem = {} as Conversation;
+                    conversationItem.pk = updatedConversation.pk;
+                    conversationItem.title = updatedConversation.title;
+                } else {
+                    let indexFromConversation = prev.findIndex(c => c.pk === updatedConversation.pk);
+                    prev.splice(indexFromConversation, 1);
+                }
+
                 conversationItem!.last_message_sender = updatedConversation.last_message_sender;
                 conversationItem!.last_message_text = updatedConversation.last_message_text;
-
-                let indexFromConversation = prev.findIndex(c => c.pk === updatedConversation.pk);
-                prev.splice(indexFromConversation, 1);
 
                 return [conversationItem!, ...prev];
             });
@@ -62,7 +74,7 @@ function Conversation({ pkMember, setPkConversationIsShow } : ConversationProps 
                         title={conversation.title} 
                         time_last_message={null}
                         last_message={conversation.last_message_text} 
-                        setPkConversationIsShow={setPkConversationIsShow}
+                        setConversationIsShow={setConversationIsShow}
                     />
                 )
             })}

@@ -6,15 +6,20 @@ type ConversationItemProps = {
     title: string,
     last_message: string | null,
     time_last_message: string | null,
-    setPkConversationIsShow: (pkConversation: string) => void
+    setConversationIsShow: (conversation: ConversationActive) => void
 }
 
-function ConversationItem({pk, title, last_message, time_last_message, setPkConversationIsShow} : ConversationItemProps) {
+interface ConversationActive {
+    pk: string;
+    title: string | null;
+}
+
+function ConversationItem({pk, title, last_message, time_last_message, setConversationIsShow} : ConversationItemProps) {
 
     return (
         <div 
             className="conversation-block" 
-            onClick={() => setPkConversationIsShow(pk)}
+            onClick={() => setConversationIsShow({pk, title})}
         >
             <FaCircleUser />
             <div className="conversation-block-infos">
