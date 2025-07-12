@@ -35,6 +35,7 @@ function setupSocketIO(httpServer) {
       for(let i = 0; i < participants.length; i++) {
         io.emit(`conversation:update:${participants[i].fk_member}`, {
           pk: pkConversation,
+          title: messageFormated.title,
           last_message_sender: messageFormated.fk_member,
           last_message_text: messageFormated.content_text
         });
