@@ -71,6 +71,21 @@ class AccountRepository {
         );
 
     }
+
+    async findByPk(pk) {
+
+        try{
+            const result = await database.query(
+                'SELECT pk, first_name, email, created_at FROM member WHERE pk = $1', 
+                [pk]
+            );
+
+            return result.rows[0];
+        }
+        catch(error){
+            console.log(error);
+        }
+    }
 }
   
 module.exports = new AccountRepository();

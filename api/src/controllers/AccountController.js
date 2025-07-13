@@ -64,4 +64,29 @@ router.post('/account/signin', async (req, res) => {
   }
 });
 
+router.get('/account', async (req, res) => {
+
+  if(req.headers.authorization == null)
+  {
+    res.status(400).json({ message: 'Bad request, authorization header is missing'});
+    return;
+  }
+
+  const pkMember = req.headers.authorization;
+
+  try {
+
+    const result = await accountRepository.findByPk(pkMember);
+
+    res.status(200).json({ 
+      message: 'Account data successfully retrieved',
+      data: result
+    });
+  } catch (err) {
+    // Print error in console
+    console.error(err);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 module.exports = router;
