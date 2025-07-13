@@ -4,6 +4,7 @@ import { api } from '../../services/axios';
 import { FiSend } from "react-icons/fi";
 import { format } from 'date-fns';
 import { useSocket } from '../../services/SocketContext';
+import { FaCircleUser } from 'react-icons/fa6';
 
 type MessageSessionProps = {
     conversation: ConversationActive | undefined,
@@ -100,6 +101,15 @@ function MessageSession({ conversation, pkMember } : MessageSessionProps) {
                 </div>
             ) : (
                 <>
+                    <div className="session-title">
+                        <a>
+                            <div className="conversation-infos">
+                                <FaCircleUser className="conversation-img" />
+                                <span className="conversation-title">{conversation.title}</span>
+                            </div>
+                        </a>
+                    </div>
+                    
                     {messages.length == 0 ? (
                         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flex: '1'}}>
                             <h1>No message sent in this chat</h1>
