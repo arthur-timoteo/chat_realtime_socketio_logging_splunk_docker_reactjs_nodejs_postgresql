@@ -1,8 +1,8 @@
 import { FaCircleUser, FaTrashCan } from "react-icons/fa6";
-
 import './style.css';
 import { useEffect, useState } from 'react';
 import { api } from '../../services/axios';
+import ShortUniqueId from 'short-uuid';
 
 interface ContactsModalProps {
     pkMember: string
@@ -38,7 +38,7 @@ export function ContactsModal({ pkMember }: ContactsModalProps) {
         try{
             await api.post('/contact/add', { 
                     fk_member: pkMember,
-                    fk_member_contact: memberIdentifier 
+                    fk_member_contact: ShortUniqueId().toUUID(memberIdentifier) 
                 });
             setMemberIdentifier('');
             searchContacts();
