@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import ConversationItem from '../ConversationItem';
 import './style.css';
 import { api } from '../../services/axios';
@@ -24,6 +24,7 @@ interface ConversationActive {
 function Conversation({ pkMember, setConversationIsShow } : ConversationProps ) {
     const [conversations, setConversations] = useState<Conversation[]>([]);
     const socket = useSocket();
+    const conversationSessionEndRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
         searchConversations();
@@ -54,6 +55,10 @@ function Conversation({ pkMember, setConversationIsShow } : ConversationProps ) 
         };
     },[socket]);
 
+    useEffect(() => {
+        conversationSessionEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [conversations]);
+
     async function searchConversations(){
         try
         {
@@ -66,6 +71,8 @@ function Conversation({ pkMember, setConversationIsShow } : ConversationProps ) 
 
     return (
         <div className="session-conversations">
+            <div ref={conversationSessionEndRef} />
+            
             {conversations.map(conversation => {
                 return (
                     <ConversationItem 
