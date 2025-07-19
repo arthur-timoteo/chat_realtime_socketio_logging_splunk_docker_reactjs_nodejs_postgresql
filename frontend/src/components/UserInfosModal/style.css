@@ -8,3 +8,21 @@ div.user-infos-modal-area {
 div.user-infos-modal-area svg {
     font-size: 80px;
 }
+
+div.user-infos-modal-area > .line-info {
+    width: 100%;
+}
+
+div.user-infos-modal-area > .line-info > label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+div.user-infos-modal-area button.clipboard-copy {
+    background: none;
+    border: none;
+}
+
+div.user-infos-modal-area button.clipboard-copy > svg {
+    font-size: 20px;
+}
