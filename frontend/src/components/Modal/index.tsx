@@ -19,7 +19,6 @@ export function Modal({ children, closeModal, title }: ModalProps) {
                             <FaCircleArrowLeft onClick={closeModal} className="icon" />
                             <h1>{title}</h1>
                         </div>
-                        <FaCircleArrowLeft className="icon" />
                     </div>
                     <div className="modal-body">
                         {children}
