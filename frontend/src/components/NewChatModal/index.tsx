@@ -6,7 +6,7 @@ import { api } from '../../services/axios';
 
 interface ContactsModalProps {
     pkMember: string,
-    contactSelectedToNewChat: (pk_conversation: string) => void 
+    contactSelectedToNewChat: (pk_conversation: string, contact_name: string) => void 
 }
 
 interface Contact {
@@ -30,7 +30,7 @@ export function NewChatModal({ pkMember, contactSelectedToNewChat }: ContactsMod
         }
     }
 
-    async function createNewChat(pkContact: string) {
+    async function createNewChat(pkContact: string, contactName: string) {
         try{
             const result = await api.post('/conversation/create', {
                 type_conversation: 0, 
@@ -41,7 +41,7 @@ export function NewChatModal({ pkMember, contactSelectedToNewChat }: ContactsMod
                 ]
             });
 
-            contactSelectedToNewChat(result.data.data.pk_conversation);
+            contactSelectedToNewChat(result.data.data.pk_conversation, contactName);
         }
         catch(error) {
             console.log(error);
@@ -60,7 +60,7 @@ export function NewChatModal({ pkMember, contactSelectedToNewChat }: ContactsMod
                         <a 
                             className="newchat-modal-item" 
                             key={contact.pk} 
-                            onClick={createNewChat.bind(null, contact.pk)}
+                            onClick={createNewChat.bind(null, contact.pk, contact.first_name)}
                         >
                             <span>{contact.first_name}</span>
                             <RiChatNewFill className="icon" />

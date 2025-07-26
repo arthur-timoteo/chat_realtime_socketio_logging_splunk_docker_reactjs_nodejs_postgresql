@@ -5,7 +5,7 @@ import { FaCircleUser } from 'react-icons/fa6';
 
 interface GroupModalProps {
     pkMember: string,
-    createGroup: (pk_conversation: string, title: string | null) => void 
+    createGroup: (pk_conversation: string, title: string) => void 
 }
 
 interface Contact {

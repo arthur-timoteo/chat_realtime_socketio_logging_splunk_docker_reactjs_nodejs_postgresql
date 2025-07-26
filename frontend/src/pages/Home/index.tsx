@@ -19,8 +19,9 @@ import { SocketProvider } from '../../services/SocketContext';
 import { UserInfosModal } from '../../components/UserInfosModal';
 
 interface ConversationActive {
-    pk: string;
-    title: string | null;
+    pk: string | undefined,
+    title: string | undefined,
+    isGroup: boolean | undefined
 }
 
 function Home() {
@@ -67,14 +68,14 @@ function Home() {
         setIsUserInfosModalOpen(false);
     }
 
-    const handleContactSelectedToNewChat = (pk_conversation: string) => {
+    const handleContactSelectedToNewChat = (pk_conversation: string, contact_name: string) => {
         closeChatModal();
-        setConversationIsShow({ pk: pk_conversation, title: null });
+        setConversationIsShow({ pk: pk_conversation, title: contact_name, isGroup: false });
     };
     
-    const handleCreateGroup = (pk_conversation: string, title: string | null) => {
+    const handleCreateGroup = (pk_conversation: string, title: string) => {
         closeAddGroupModal();
-        setConversationIsShow({ pk: pk_conversation, title });
+        setConversationIsShow({ pk: pk_conversation, title, isGroup: true });
     };
 
     function signOut(){

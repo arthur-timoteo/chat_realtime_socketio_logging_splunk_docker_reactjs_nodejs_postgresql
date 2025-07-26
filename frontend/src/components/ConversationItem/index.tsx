@@ -1,38 +1,54 @@
 import './style.css';
 import { FaCircleUser } from "react-icons/fa6";
+import { format } from 'date-fns';
 
 type ConversationItemProps = {
-    pk: string,
-    title: string,
-    last_message: string | null,
-    time_last_message: string | null,
+    pk_logged_member: string,
+    conversation: Conversation,
     setConversationIsShow: (conversation: ConversationActive) => void
 }
 
 interface ConversationActive {
-    pk: string;
-    title: string | null;
+    pk: string | undefined,
+    title: string | undefined,
+    isGroup: boolean | undefined
 }
 
-function ConversationItem({pk, title, last_message, time_last_message, setConversationIsShow} : ConversationItemProps) {
+interface Conversation {
+    pk: string,
+    title: string,
+    last_message_sender_pk: string | null,
+    last_message_sender: string | null,
+    last_message_text: string | null,
+    last_message_time: string | null,
+    type_conversation: boolean
+}
+
+function ConversationItem({pk_logged_member, conversation, setConversationIsShow} : ConversationItemProps) {
 
     return (
         <div 
             className="conversation-block" 
-            onClick={() => setConversationIsShow({pk, title})}
+            onClick={() => setConversationIsShow({pk: conversation.pk, title: conversation.title, isGroup: conversation.type_conversation})}
         >
             <FaCircleUser />
             <div className="conversation-block-infos">
                 <div className="conversation-block-infos-line">
-                    <h4>{title}</h4>
+                    <h4>{conversation.title}</h4>
 
-                    {time_last_message && (
-                        <span>{time_last_message}</span>
+                    {conversation.last_message_time && (
+                        <span>{format(conversation.last_message_time, 'HH:mm')}</span>
                     )}
                 </div>
 
-                {last_message && (
-                    <p>{last_message}</p>
+                {conversation.last_message_text && (
+                    <p>
+                        {conversation.type_conversation == true && conversation.last_message_sender_pk != pk_logged_member ? (
+                            <>
+                                <b>{conversation.last_message_sender}:</b> {conversation.last_message_text}
+                            </>
+                        ) : (conversation.last_message_text)}
+                    </p>
                 )}
             </div>
         </div>

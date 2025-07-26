@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState,useRef } from 'react';
 import ConversationItem from '../ConversationItem';
 import './style.css';
 import { api } from '../../services/axios';
@@ -12,13 +12,17 @@ type ConversationProps = {
 interface Conversation {
     pk: string,
     title: string,
-    last_message_sender: string | null,
-    last_message_text: string | null
+    last_message_sender_pk: string,
+    last_message_sender: string,
+    last_message_text: string,
+    last_message_time: string,
+    type_conversation: boolean
 }
 
 interface ConversationActive {
-    pk: string;
-    title: string | null;
+    pk: string | undefined,
+    title: string | undefined,
+    isGroup: boolean | undefined
 }
 
 function Conversation({ pkMember, setConversationIsShow } : ConversationProps ) {
@@ -38,13 +42,16 @@ function Conversation({ pkMember, setConversationIsShow } : ConversationProps ) 
                     conversationItem = {} as Conversation;
                     conversationItem.pk = updatedConversation.pk;
                     conversationItem.title = updatedConversation.title;
+                    conversationItem.type_conversation = updatedConversation.type_conversation;
                 } else {
                     let indexFromConversation = prev.findIndex(c => c.pk === updatedConversation.pk);
                     prev.splice(indexFromConversation, 1);
                 }
 
-                conversationItem!.last_message_sender = updatedConversation.last_message_sender;
-                conversationItem!.last_message_text = updatedConversation.last_message_text;
+                conversationItem.last_message_sender_pk = updatedConversation.last_message_sender_pk;
+                conversationItem.last_message_sender = updatedConversation.last_message_sender;
+                conversationItem.last_message_time = updatedConversation.last_message_time;
+                conversationItem.last_message_text = updatedConversation.last_message_text;
 
                 return [conversationItem!, ...prev];
             });
@@ -77,10 +84,8 @@ function Conversation({ pkMember, setConversationIsShow } : ConversationProps ) 
                 return (
                     <ConversationItem 
                         key={conversation.pk}
-                        pk={conversation.pk}
-                        title={conversation.title} 
-                        time_last_message={null}
-                        last_message={conversation.last_message_text} 
+                        pk_logged_member={pkMember}
+                        conversation={conversation}
                         setConversationIsShow={setConversationIsShow}
                     />
                 )

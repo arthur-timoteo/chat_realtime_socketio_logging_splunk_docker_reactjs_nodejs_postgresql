@@ -52,6 +52,12 @@
     gap: 0.3rem;
 }
 
+.message-name-sender {
+    font-size: 10px;
+    display: flex;
+    justify-content: start;
+}
+
 .message-write {
     background-color: #eeeeee;
     padding: 10px 20px;

@@ -15,12 +15,14 @@ interface Message {
     pk: string,
     fk_member: string,
     content_text: string,
-    sent_at: string
+    sent_at: string,
+    first_name: string
 }
 
 interface ConversationActive {
-    pk: string | undefined;
-    title: string | null;
+    pk: string | undefined,
+    title: string | undefined,
+    isGroup: boolean | undefined
 }
 
 function MessageSession({ conversation, pkMember } : MessageSessionProps) {
@@ -76,7 +78,6 @@ function MessageSession({ conversation, pkMember } : MessageSessionProps) {
         try
         {
             const messageFormated = {
-                pk: '',
                 fk_member: pkMember,
                 content_text: message,
                 title: conversation?.title || null,
@@ -109,7 +110,6 @@ function MessageSession({ conversation, pkMember } : MessageSessionProps) {
                             </div>
                         </a>
                     </div>
-                    
                     {messages.length == 0 ? (
                         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flex: '1'}}>
                             <h1>No message sent in this chat</h1>
@@ -123,6 +123,9 @@ function MessageSession({ conversation, pkMember } : MessageSessionProps) {
                                         className={pkMember == message.fk_member ? 'message-sender' : 'message-recipient'}
                                     >
                                         <div className="message-item">
+                                            { conversation!.isGroup && (
+                                                <span className='message-name-sender'>{pkMember != message.fk_member && message.first_name}</span>
+                                            ) }
                                             <span className="message-text">{message.content_text}</span>
                                             <span className="message-date">
                                                 <span>{format(message.sent_at, 'HH:mm')}</span>
