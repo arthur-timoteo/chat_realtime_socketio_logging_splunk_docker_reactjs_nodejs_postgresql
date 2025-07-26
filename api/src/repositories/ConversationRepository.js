@@ -28,12 +28,22 @@ class ConversationRepository {
                 	ELSE con.title
                	END AS title,
                 (
+                    SELECT mem.pk FROM message AS mes INNER JOIN member AS mem ON mes.fk_member = mem.pk WHERE fk_conversation = con.pk ORDER BY sent_at DESC LIMIT 1
+                ) AS last_message_sender_pk,
+                (
                     SELECT mem.first_name FROM message AS mes INNER JOIN member AS mem ON mes.fk_member = mem.pk WHERE fk_conversation = con.pk ORDER BY sent_at DESC LIMIT 1
                 ) AS last_message_sender,
                 (
                     SELECT content_text FROM message WHERE fk_conversation = con.pk ORDER BY sent_at DESC LIMIT 1
-                ) AS last_message_text
-            FROM conversation AS con INNER JOIN participant AS par ON con.pk = par.fk_conversation WHERE par.fk_member = $1`, 
+                ) AS last_message_text,
+                (
+                    SELECT sent_at FROM message WHERE fk_conversation = con.pk ORDER BY sent_at DESC LIMIT 1
+                ) AS last_message_time,
+                type_conversation
+            FROM conversation AS con 
+            INNER JOIN participant AS par 
+            ON con.pk = par.fk_conversation 
+            WHERE par.fk_member = $1`, 
             [pk_member]
         );
         

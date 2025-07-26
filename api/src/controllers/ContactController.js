@@ -68,4 +68,20 @@ try {
 }
 });
 
+router.delete('/contact/:pkMemberContact', async (req, res) => {
+  const pkMember = req.headers.authorization
+  const pkMemberContact = req.params.pkMemberContact;
+
+  try {
+
+    const result = await contactRepository.delete(pkMember, pkMemberContact);
+
+    res.status(200).json({ message: 'Contact deleted with success'});
+  } catch (err) {
+    // Print error in console
+    console.error(err);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 module.exports = router;
