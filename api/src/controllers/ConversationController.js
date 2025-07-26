@@ -19,17 +19,19 @@ router.post('/conversation/create', async (req, res) => {
       return;
     }
 
-    //Validate that conversation already exists
-    var conversationAlreadyExists = await conversationRepository.findOneByParticipants(type_conversation, list_pk_member);
-    
-    if(conversationAlreadyExists != null && conversationAlreadyExists.length > 0){
-      res.status(400).json({ 
-        message: 'This conversation already exists',
-        data: {
-          pk_conversation: conversationAlreadyExists[0].pk
-        }
-      });
-      return;
+    if(type_conversation == 0){
+      //Validate that conversation already exists
+      var conversationAlreadyExists = await conversationRepository.findOneByParticipants(type_conversation, list_pk_member);
+      
+      if(conversationAlreadyExists != null && conversationAlreadyExists.length > 0){
+        res.status(400).json({ 
+          message: 'This conversation already exists',
+          data: {
+            pk_conversation: conversationAlreadyExists[0].pk
+          }
+        });
+        return;
+      }
     }
     
     await conversationRepository.create(type_conversation, title, list_pk_member);
