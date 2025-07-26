@@ -37,9 +37,10 @@ export function ContactsModal({ pkMember }: ContactsModalProps) {
 
         try{
             await api.post('/contact/add', { 
-                    fk_member: pkMember,
-                    fk_member_contact: ShortUniqueId().toUUID(memberIdentifier) 
-                });
+                fk_member: pkMember,
+                fk_member_contact: ShortUniqueId().toUUID(memberIdentifier) 
+            });
+            
             setMemberIdentifier('');
             searchContacts();
         }
@@ -47,6 +48,25 @@ export function ContactsModal({ pkMember }: ContactsModalProps) {
             console.log(error);
         }
     }
+
+    async function deleteContact(pk_member: string) {
+
+        try{
+            await api.delete(
+                `/contact/${pk_member}`,
+                {
+                    headers: {
+                        Authorization: pkMember
+                    }
+                }
+            );
+            
+            searchContacts();
+        }
+        catch(error) {
+            console.log(error);
+        }
+    };
 
     return (
         <div className="contacts-modal-area">
@@ -78,7 +98,7 @@ export function ContactsModal({ pkMember }: ContactsModalProps) {
                                 <span>{contact.first_name}</span>
                             </div>
 
-                            <a title="Delete contact">
+                            <a title="Delete contact" onClick={() => deleteContact(contact.pk)}>
                                 <FaTrashCan className="icon" />
                             </a>
                         </div>
