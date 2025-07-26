@@ -43,7 +43,8 @@ class ConversationRepository {
             FROM conversation AS con 
             INNER JOIN participant AS par 
             ON con.pk = par.fk_conversation 
-            WHERE par.fk_member = $1`, 
+            WHERE par.fk_member = $1
+            ORDER BY last_message_time DESC`, 
             [pk_member]
         );
         
