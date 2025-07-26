@@ -120,12 +120,12 @@ function SignUp() {
                     <span>By creating an account you agree to the Terms of Use <br/>and Privacy Policy</span>
                 </div>
 
-                <button type="submit" disabled={!showSignUpButton}>
+                <button type="submit" disabled={!showSignUpButton} title="Sign-up">
                     {!isLoading ? (<>SIGN-UP</>) 
                     : (<FaSpinner className="icon" />)}
                 </button>
             </form>
-            <a className="link-already-have-account" onClick={alreadyHaveAnAccount}>Already have an account? Click here</a>
+            <a className="link-already-have-account" onClick={alreadyHaveAnAccount} title="Click here if you already have an account">Already have an account? Click here</a>
         </div>
     );
 }

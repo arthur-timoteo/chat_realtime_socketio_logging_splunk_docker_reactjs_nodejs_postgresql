@@ -16,8 +16,11 @@ class MessageRepository {
                 mes.pk,
                 mes.fk_member,
                 mes.content_text,
-                mes.sent_at
+                mes.sent_at,
+                mem.first_name
             FROM message AS mes 
+            INNER JOIN member AS mem 
+            ON mes.fk_member = mem.pk
             WHERE mes.fk_conversation = $1
             ORDER BY mes.sent_at ASC`, 
             [pk_conversation]

@@ -1,0 +1,10 @@
+div.user-infos-modal-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+}
+
+div.user-infos-modal-area svg {
+    font-size: 80px;
+}

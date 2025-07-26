@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './style.css';
 import { api } from '../../services/axios';
 import { FiSend } from "react-icons/fi";
 import { format } from 'date-fns';
+import { useSocket } from '../../services/SocketContext';
 
 type MessageSessionProps = {
     pkConversation: string | undefined,
@@ -18,10 +19,29 @@ interface Message {
 
 function MessageSession({ pkConversation, pkMember } : MessageSessionProps) {
     const [messages, setMessages] = useState<Message[]>([]);
+    const [message, setMessage] = useState('');
+    const socket = useSocket();
+    const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
         searchMessages();
-    },[pkConversation]);
+
+        // Connects the user in the conversation room
+        socket?.emit('joinRoom', pkConversation);
+
+        // Listen for incoming messages
+        socket?.on('receiveMessage', (msg: Message) => {
+            setMessages((prev) => [...prev, msg]);
+        });
+
+        return () => {
+            socket?.off('receiveMessage');
+        };
+    },[socket, pkConversation]);
+
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [messages]);
 
     async function searchMessages(){
         if (!pkConversation) {
@@ -31,6 +51,28 @@ function MessageSession({ pkConversation, pkMember } : MessageSessionProps) {
         try
         {
             await api.get(`/message/list/${pkConversation}`).then(response => setMessages(response.data));
+        }
+        catch {
+            console.log('error');
+        }
+    }
+    
+    async function sendMessage(){
+        if (!message.trim()) {
+            return;
+        }
+
+        try
+        {
+            const messageFormated = {
+                pk: '',
+                fk_member: pkMember,
+                content_text: message,
+                sent_at: format(new Date(), 'yyyy-MM-dd HH:mm:ss')
+            };
+            
+            socket?.emit('sendMessage', { pkConversation, messageFormated });
+            setMessage('');
         }
         catch {
             console.log('error');
@@ -68,11 +110,21 @@ function MessageSession({ pkConversation, pkMember } : MessageSessionProps) {
                                     </div>
                                 )
                             })}
+                            
+                            <div ref={messagesEndRef} />
                         </div>
                     )}
                     <div className="message-write">
-                        <textarea id="comments" name="comments" />
-                        <FiSend className="sent"/>
+                        <textarea 
+                            id="comments" 
+                            name="comments"
+                            value={message}
+                            onChange={event => setMessage(event.target.value)} />
+                        <a
+                            title="Send message"
+                            onClick={sendMessage}>
+                            <FiSend className="sent"/>
+                        </a>
                     </div>
                 </>
             )}
