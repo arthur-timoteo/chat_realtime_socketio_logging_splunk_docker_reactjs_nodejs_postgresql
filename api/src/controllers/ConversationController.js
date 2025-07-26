@@ -21,7 +21,7 @@ router.post('/conversation/create', async (req, res) => {
 
     if(type_conversation == 0){
       //Validate that conversation already exists
-      var conversationAlreadyExists = await conversationRepository.findOneByParticipants(type_conversation, list_pk_member);
+      var conversationAlreadyExists = await conversationRepository.findOne(type_conversation, list_pk_member, null);
       
       if(conversationAlreadyExists != null && conversationAlreadyExists.length > 0){
         res.status(400).json({ 
@@ -36,7 +36,7 @@ router.post('/conversation/create', async (req, res) => {
     
     await conversationRepository.create(type_conversation, title, list_pk_member);
 
-    const conversationCreated = await conversationRepository.findOneByParticipants(type_conversation, list_pk_member);
+    const conversationCreated = await conversationRepository.findOne(type_conversation, list_pk_member, title);
 
     res.status(201).json({ 
       message: 'Conversation created with success',

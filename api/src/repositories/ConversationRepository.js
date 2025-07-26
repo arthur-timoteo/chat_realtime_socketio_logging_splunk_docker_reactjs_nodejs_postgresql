@@ -50,7 +50,7 @@ class ConversationRepository {
         return result.rows;
     }
 
-    async findOneByParticipants(type_conversation, pk_member_list) {
+    async findOne(type_conversation, pk_member_list, title) {
         var query = `SELECT 
             con.pk
             FROM conversation AS con`;
@@ -65,6 +65,9 @@ class ConversationRepository {
         for (let i = 0; i < pk_member_list.length; i++) {
             query += `\n AND par${i}.fk_member = '${pk_member_list[i]}'`;
         }
+
+        if (title != null && title != '' && title != undefined) 
+            query += `\n AND con.title = '${title}' ORDER BY con.created_at DESC LIMIT 1`;
         
         const result = await database.query(query);
         
