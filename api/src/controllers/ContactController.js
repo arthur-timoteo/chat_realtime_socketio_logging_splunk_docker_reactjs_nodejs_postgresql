@@ -13,8 +13,15 @@ router.post('/contact/add', async (req, res) => {
       res.status(400).json({ message: 'The supplied object is incorrect'});
       return;
     }
+
+    const contactAlreadyExists = await contactRepository.findOne(fk_member, fk_member_contact);
+
+    if(contactAlreadyExists != null) {
+      res.status(400).json({ message: 'This contact already exists' });
+      return;
+    }
     
-    const result = await contactRepository.add(fk_member, fk_member_contact);
+    await contactRepository.add(fk_member, fk_member_contact);
 
     res.status(201).json({ message: 'Contact added with success'});
   } catch (err) {

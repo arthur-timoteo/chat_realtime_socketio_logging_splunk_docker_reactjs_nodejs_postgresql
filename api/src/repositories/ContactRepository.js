@@ -54,6 +54,16 @@ class ContactRepository {
         );
 
     }
+
+    async findOne(pk_member, pk_member_contact) {
+
+        const result = await database.query(
+            'SELECT * FROM contact AS c WHERE c.fk_member = $1 AND c.fk_member_contact = $2;', 
+            [pk_member, pk_member_contact]
+        );
+        
+        return result.rows[0];
+    }
 }
   
 module.exports = new ContactRepository();
