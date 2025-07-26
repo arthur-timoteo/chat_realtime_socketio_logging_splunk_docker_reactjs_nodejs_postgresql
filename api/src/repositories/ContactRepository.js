@@ -37,6 +37,7 @@ class ContactRepository {
                     INNER JOIN participant AS par 
                     ON con.pk = par.fk_conversation 
                     WHERE par.fk_member = $1
+                    AND con.type_conversation = false
                 )
             )`, 
             [pk_member]
@@ -52,6 +53,16 @@ class ContactRepository {
             [pk_member, pk_member_contact]
         );
 
+    }
+
+    async findOne(pk_member, pk_member_contact) {
+
+        const result = await database.query(
+            'SELECT * FROM contact AS c WHERE c.fk_member = $1 AND c.fk_member_contact = $2;', 
+            [pk_member, pk_member_contact]
+        );
+        
+        return result.rows[0];
     }
 }
   
