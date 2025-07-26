@@ -3,6 +3,7 @@
     flex: 1;
     background-color: #fff5e6;
     flex-direction: column;
+    border-left: 1px solid var(--color-gray-2);
 }
 
 .message-session {
@@ -51,6 +52,12 @@
     gap: 0.3rem;
 }
 
+.message-name-sender {
+    font-size: 10px;
+    display: flex;
+    justify-content: start;
+}
+
 .message-write {
     background-color: #eeeeee;
     padding: 10px 20px;
@@ -72,4 +79,29 @@
 .message-write a > .sent {
     font-size: 30px;
     margin: 0 20px;
+}
+
+.session-title {
+    background-color: #eeeeee;
+    padding: 0.6rem;
+}
+
+.session-title a {
+    color: #000;
+}
+
+.session-title .conversation-infos {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.session-title .conversation-infos > .conversation-img {
+    width: 50px;
+    height: 45px;
+}
+
+.session-title .conversation-infos > .conversation-title {
+    font-size: 25px;
+    font-weight: bold;
 }

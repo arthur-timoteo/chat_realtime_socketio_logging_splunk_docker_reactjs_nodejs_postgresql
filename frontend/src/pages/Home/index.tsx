@@ -18,12 +18,18 @@ import { GroupModal } from '../../components/GroupModal';
 import { SocketProvider } from '../../services/SocketContext';
 import { UserInfosModal } from '../../components/UserInfosModal';
 
+interface ConversationActive {
+    pk: string | undefined,
+    title: string | undefined,
+    isGroup: boolean | undefined
+}
+
 function Home() {
     const [isContactsModalOpen, setIsContactsModalOpen] = useState(false);
     const [isAddGroupModalOpen, setIsAddGroupModalOpen] = useState(false);
     const [isChatModalOpen, setIsChatModalOpen] = useState(false);
     const [isUserInfosModalOpen, setIsUserInfosModalOpen] = useState(false);
-    const [pkConversationIsShow, setPkConversationIsShow] = useState<string>();
+    const [conversationIsShow, setConversationIsShow] = useState<ConversationActive>();
 
     const location = useLocation();
     const pkMember = location.state?.pk;
@@ -62,14 +68,14 @@ function Home() {
         setIsUserInfosModalOpen(false);
     }
 
-    const handleContactSelectedToNewChat = (pk_conversation: string) => {
+    const handleContactSelectedToNewChat = (pk_conversation: string, contact_name: string) => {
         closeChatModal();
-        setPkConversationIsShow(pk_conversation);
+        setConversationIsShow({ pk: pk_conversation, title: contact_name, isGroup: false });
     };
     
-    const handleCreateGroup = (pk_conversation: string) => {
+    const handleCreateGroup = (pk_conversation: string, title: string) => {
         closeAddGroupModal();
-        setPkConversationIsShow(pk_conversation);
+        setConversationIsShow({ pk: pk_conversation, title, isGroup: true });
     };
 
     function signOut(){
@@ -153,13 +159,13 @@ function Home() {
 
                     <Conversation
                         pkMember={pkMember}
-                        setPkConversationIsShow={setPkConversationIsShow}
+                        setConversationIsShow={setConversationIsShow}
                     />
                     
                 </div>
                 
                 <MessageSession
-                    pkConversation={pkConversationIsShow}
+                    conversation={conversationIsShow}
                     pkMember={pkMember}
                 />
 
