@@ -43,8 +43,12 @@ div.modal-fade > div.modal > div.modal-content > div.modal-header > div.modal-he
     align-items: center;
 }
 
-div.modal-fade > div.modal > div.modal-content > div.modal-header > div.modal-header-content-left > svg {
+div.modal-fade > div.modal > div.modal-content > div.modal-header > div.modal-header-content-left > .icon {
     margin-right: 10px;
+}
+
+div.modal-fade > div.modal > div.modal-content > div.modal-header > div.modal-header-content-left > .icon:hover {
+    cursor: pointer;
 }
 
 div.modal-fade > div.modal > div.modal-content > div.modal-header > div.modal-header-content-left > h1 {

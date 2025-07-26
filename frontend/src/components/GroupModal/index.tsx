@@ -5,7 +5,7 @@ import { FaCircleUser } from 'react-icons/fa6';
 
 interface GroupModalProps {
     pkMember: string,
-    createGroup: (pk_conversation: string) => void 
+    createGroup: (pk_conversation: string, title: string) => void 
 }
 
 interface Contact {
@@ -67,7 +67,7 @@ export function GroupModal({ pkMember, createGroup }: GroupModalProps) {
                 ]
             });
 
-            createGroup(result.data.data.pk_conversation);
+            createGroup(result.data.data.pk_conversation, titleGroup);
         }
         catch(error) {
             console.log(error);
