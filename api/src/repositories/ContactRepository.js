@@ -37,6 +37,7 @@ class ContactRepository {
                     INNER JOIN participant AS par 
                     ON con.pk = par.fk_conversation 
                     WHERE par.fk_member = $1
+                    AND con.type_conversation = false
                 )
             )`, 
             [pk_member]
