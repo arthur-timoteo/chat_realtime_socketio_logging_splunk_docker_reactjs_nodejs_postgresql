@@ -20,10 +20,6 @@ function SignIn() {
     function doNotHaveAnAccount(){
         navigate('/signup');
     }
-
-    function timeout(delay: number) {
-        return new Promise( res => setTimeout(res, delay) );
-    }
     
     async function signIn(event: FormEvent<HTMLFormElement>){
         event.preventDefault();
