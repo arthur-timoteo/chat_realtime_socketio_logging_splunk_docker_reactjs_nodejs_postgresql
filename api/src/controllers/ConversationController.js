@@ -1,6 +1,7 @@
 const express = require('express');
 const conversationRepository = require('../repositories/ConversationRepository');
 const router = express.Router();
+const sendToSplunk = require('../service/splunk_hec');
 
 router.post('/conversation/create', async (req, res) => {
   const { type_conversation, title, list_pk_member } = req.body;
@@ -10,11 +11,13 @@ router.post('/conversation/create', async (req, res) => {
     //Validate that all parameters have been provided
     if(type_conversation == 0 && list_pk_member == null)
     {
+      sendToSplunk('The supplied object is incorrect', 'WARN', 'CC-CC_0', {data: req.body}, req);
       res.status(400).json({ message: 'The supplied object is incorrect'});
       return;
     } 
     else if(type_conversation == 1 && title == null || type_conversation == 1 && list_pk_member == null)
     {
+      sendToSplunk('The supplied object is incorrect', 'WARN', 'CC-CC_1', {data: req.body}, req);
       res.status(400).json({ message: 'The supplied object is incorrect'});
       return;
     }
@@ -24,6 +27,7 @@ router.post('/conversation/create', async (req, res) => {
       var conversationAlreadyExists = await conversationRepository.findOne(type_conversation, list_pk_member, null);
       
       if(conversationAlreadyExists != null && conversationAlreadyExists.length > 0){
+        sendToSplunk('The conversation already exists', 'WARN', 'CC-CC_2', {data: req.body}, req);
         res.status(400).json({ 
           message: 'This conversation already exists',
           data: {
@@ -44,9 +48,8 @@ router.post('/conversation/create', async (req, res) => {
         pk_conversation: conversationCreated[0].pk
       }
     });
-  } catch (err) {
-    // Print error in console
-    console.error(err);
+  } catch (error) {
+    sendToSplunk('Internal server error', 'ERROR', 'CC-CC_3', {error, data: req.body}, req);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
@@ -59,6 +62,7 @@ router.get('/conversation/list/:pk_member', async (req, res) => {
     //Validate that all parameters have been provided
     if(pkMember == null)
     {
+      sendToSplunk('The supplied object is incorrect', 'WARN', 'CC-CL_0', null, req);
       res.status(400).json({ message: 'The request is incorrect'});
       return;
     }
@@ -66,9 +70,8 @@ router.get('/conversation/list/:pk_member', async (req, res) => {
     const result = await conversationRepository.list(pkMember);
 
     res.status(200).json(result);
-  } catch (err) {
-    // Print error in console
-    console.error(err);
+  } catch (error) {
+    sendToSplunk('Internal server error', 'ERROR', 'CC-CL_1', {error}, req);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
