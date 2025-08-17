@@ -1,4 +1,5 @@
 const database = require('../database/database_connection');
+const sendToSplunk = require('../service/splunk_hec');
 
 class AccountRepository {
     async create(member) {
@@ -6,19 +7,18 @@ class AccountRepository {
 
         if(await !this.checkIfMemberAlreadyExists(email))
         {
-            console.log('aaaaaaaa');
+            sendToSplunk('Member already exists', 'WARN', 'AR-C_0', {first_name, email, ip_address});
             return false;
         }
 
         try{
-            console.log('insert member');
             await database.query(
                 'INSERT INTO member (first_name, email, password_signin, ip_address) VALUES ($1, $2, $3, $4);', 
                 [first_name, email, password_signin, ip_address]
             );
         }
         catch(error){
-            console.log(error);
+            sendToSplunk('Error to try check if member already exists', 'ERROR', 'AR-C_1', {error, data: {first_name, email, password_signin, ip_address}});
             return false;
         }
 
@@ -36,7 +36,7 @@ class AccountRepository {
             return result.rows[0].count;
         }
         catch(error){
-            console.log(error);
+            sendToSplunk('Error to try check if member already exists', 'ERROR', 'AR-CIMAE_0', {error, data: {email}});
             return 0;
         }
     }
@@ -45,6 +45,7 @@ class AccountRepository {
 
         if(!await this.checkIfMemberAlreadyExists(email))
         {
+            sendToSplunk('Member do not exists', 'WARN', 'AR-SI_0', {email, ip_address});
             return null;
         }
 
@@ -59,6 +60,7 @@ class AccountRepository {
         }
 
         await this.logSignInHistory(result.rows[0].pk, ip_address);
+        sendToSplunk('Member signed in with success', 'INFO', 'AR-SI_1', {email, ip_address});
         
         return result.rows[0];
     }
@@ -83,7 +85,7 @@ class AccountRepository {
             return result.rows[0];
         }
         catch(error){
-            console.log(error);
+            sendToSplunk('Error to try check if member already exists', 'ERROR', 'AR-FBP_0', {error, data: {pk}});
         }
     }
 }
