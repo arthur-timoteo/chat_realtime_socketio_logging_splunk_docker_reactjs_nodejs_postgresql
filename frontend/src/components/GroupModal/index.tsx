@@ -2,6 +2,7 @@ import './style.css';
 import { useEffect, useState } from 'react';
 import { api } from '../../services/axios';
 import { FaCircleUser } from 'react-icons/fa6';
+import { Log } from '../../services/logger';
 
 interface GroupModalProps {
     pkMember: string,
@@ -27,7 +28,8 @@ export function GroupModal({ pkMember, createGroup }: GroupModalProps) {
             await api.get(`/contact/list/${pkMember}`).then(response => setContacts(response.data));
         }
         catch(error) {
-            console.log(error);
+            await Log('Error when searching for member contacts', 'ERROR', 'GM-I-SC-0', 
+                `data: {pkMember: ${pkMember}}, error: ${error as string}`);
         }
     }
 
@@ -70,7 +72,8 @@ export function GroupModal({ pkMember, createGroup }: GroupModalProps) {
             createGroup(result.data.data.pk_conversation, titleGroup);
         }
         catch(error) {
-            console.log(error);
+            await Log('Error when trying to create a group chat', 'ERROR', 'GM-I-CG-0', 
+                `data: {pkMember: ${pkMember}}, error: ${error as string}`);
         }
     }
 

@@ -3,6 +3,7 @@ import { RiChatNewFill } from "react-icons/ri";
 import './style.css';
 import { useEffect, useState } from 'react';
 import { api } from '../../services/axios';
+import { Log } from '../../services/logger';
 
 interface ContactsModalProps {
     pkMember: string,
@@ -26,7 +27,8 @@ export function NewChatModal({ pkMember, contactSelectedToNewChat }: ContactsMod
             await api.get(`/contact/list/conversation/${pkMember}`).then(response =>setContacts(response.data));
         }
         catch(error) {
-            console.log(error);
+            await Log('Error when searching for member contacts', 'ERROR', 'NCM-I-SC-0', 
+                `data: {pkMember: ${pkMember}}, error: ${error as string}`);
         }
     }
 
@@ -44,7 +46,8 @@ export function NewChatModal({ pkMember, contactSelectedToNewChat }: ContactsMod
             contactSelectedToNewChat(result.data.data.pk_conversation, contactName);
         }
         catch(error) {
-            console.log(error);
+            await Log('Error when trying to create new chat', 'ERROR', 'NCM-I-CNC-0', 
+                `data: {pkMember: ${pkMember}, pkContact: ${pkContact}}, error: ${error as string}`);
         }
     }
 

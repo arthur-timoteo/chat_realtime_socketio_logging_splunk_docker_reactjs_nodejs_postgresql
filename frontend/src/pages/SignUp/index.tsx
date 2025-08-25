@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import './style.css';
 import { api } from '../../services/axios';
 import { FaSpinner } from 'react-icons/fa6';
+import { Log } from '../../services/logger';
 
 interface IMessageToUser {
     style: 'success' | 'danger' | undefined,
@@ -40,12 +41,14 @@ function SignUp() {
         if(!firstName || !email || !password || !passwordConfirm){
             setMessageToUser({ style: 'danger', message: 'There are blank fields' });
             setIsloading(false);
+            await Log('The supplied object is incorrect', 'WARN', 'SU-I--SU-0', `first_name: ${firstName}, email: ${email}`);
             return;
         }
 
         if(password != passwordConfirm){
             setMessageToUser({ style: 'danger', message: `Passwords don't match` });
             setIsloading(false);
+            await Log('Passwords are not the same', 'WARN', 'SU-I-SU-1', `first_name: ${firstName}, email: ${email}`);
             return;
         }
 
@@ -68,8 +71,9 @@ function SignUp() {
 
             navigate('/');
         }
-        catch {
+        catch (error) {
             setMessageToUser({ style: 'danger', message: 'Error to try sign-up' });
+            await Log('Error to try sign-up', 'ERROR', 'SU-I-SU-2', `data: {first_name: ${firstName}, email: ${email}}, error: ${error as string}`);
         }
 
         setIsloading(false);
