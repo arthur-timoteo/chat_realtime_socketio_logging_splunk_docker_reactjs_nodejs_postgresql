@@ -5,6 +5,7 @@ import { FiSend } from "react-icons/fi";
 import { format } from 'date-fns';
 import { useSocket } from '../../services/SocketContext';
 import { FaCircleUser } from 'react-icons/fa6';
+import { Log } from '../../services/logger';
 
 type MessageSessionProps = {
     conversation: ConversationActive | undefined,
@@ -65,8 +66,9 @@ function MessageSession({ conversation, pkMember } : MessageSessionProps) {
         {
             await api.get(`/message/list/${conversation.pk}`).then(response => setMessages(response.data));
         }
-        catch {
-            console.log('error');
+        catch(error) {
+            await Log('Error when searching for member contacts', 'ERROR', 'MS-I-SM-0', 
+                `data: {pkMember: ${pkMember}, conversation: ${conversation}}, error: ${error as string}`);
         }
     }
     
@@ -88,8 +90,9 @@ function MessageSession({ conversation, pkMember } : MessageSessionProps) {
             socket?.emit('sendMessage', { pkConversation , messageFormated });
             setMessage('');
         }
-        catch {
-            console.log('error');
+        catch(error) {
+            await Log('Error when searching for member contacts', 'ERROR', 'MS-I-SDM-0', 
+                `data: {pkMember: ${pkMember}, conversation: ${conversation}}, error: ${error as string}`);
         }
     }
 

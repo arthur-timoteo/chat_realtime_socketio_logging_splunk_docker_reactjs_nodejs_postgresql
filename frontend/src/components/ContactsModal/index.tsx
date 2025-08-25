@@ -3,6 +3,7 @@ import './style.css';
 import { useEffect, useState } from 'react';
 import { api } from '../../services/axios';
 import ShortUniqueId from 'short-uuid';
+import { Log } from '../../services/logger';
 
 interface ContactsModalProps {
     pkMember: string
@@ -26,7 +27,8 @@ export function ContactsModal({ pkMember }: ContactsModalProps) {
             await api.get(`/contact/list/${pkMember}`).then(response => setContacts(response.data));
         }
         catch(error) {
-            console.log(error);
+            await Log('Error when trying to fetch member contacts', 'ERROR', 'CM-I-SC-0', 
+                `data: {pkMember: ${pkMember}}, error: ${error as string}`);
         }
     }
 
@@ -45,7 +47,8 @@ export function ContactsModal({ pkMember }: ContactsModalProps) {
             searchContacts();
         }
         catch(error) {
-            console.log(error);
+            await Log('Error when trying to add contact', 'ERROR', 'CM-I-AC-0', 
+                `data: {pkMember: ${pkMember}, pkContact: ${memberIdentifier}}, error: ${error as string}`);
         }
     }
 
@@ -64,7 +67,8 @@ export function ContactsModal({ pkMember }: ContactsModalProps) {
             searchContacts();
         }
         catch(error) {
-            console.log(error);
+            await Log('Error when trying to delete contact', 'ERROR', 'CM-I-DC-0', 
+                `data: {pkMember: ${pkMember}, pkContact: ${pk_member}}, error: ${error as string}`);
         }
     };
 
