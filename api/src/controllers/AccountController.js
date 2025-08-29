@@ -7,14 +7,14 @@ router.post('/account/signup', async (req, res) => {
   try {
 
     //Validate that all parameters have been provided
-    if(req.body.first_name == null || req.body.email == null || req.body.password_signin == null || req.body.ip_address == null)
+    if(req.body.first_name == null || req.body.email == null || req.body.password_signin == null)
     {
       sendToSplunk('The supplied object is incorrect', 'WARN', 'AC-ASU_0', {data: req.body}, req);
       res.status(400).json({ message: 'The supplied object is incorrect'});
       return;
     }
     
-    const result = await accountRepository.create(req.body);
+    const result = await accountRepository.create(req.body, req.socket.remoteAddress.split(':')[2]);
 
     if(!result)
     {
@@ -40,15 +40,8 @@ router.post('/account/signin', async (req, res) => {
       res.status(400).json({ message: 'The supplied object is incorrect'});
       return;
     }
-    
-    //Validates that the ip address has been provided
-    if(req.body.ip_address == null)
-    {
-      res.status(500).json({ message: 'Internal server error'});
-      return;
-    }
 
-    const result = await accountRepository.signIn(req.body.email, req.body.password_signin, req.body.ip_address);
+    const result = await accountRepository.signIn(req.body.email, req.body.password_signin, req.socket.remoteAddress.split(':')[2]);
 
     if(result == null)
     {

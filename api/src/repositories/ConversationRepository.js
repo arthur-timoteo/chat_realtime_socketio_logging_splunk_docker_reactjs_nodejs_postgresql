@@ -82,6 +82,16 @@ class ConversationRepository {
 
         return list_pk_member.map(pk => `'${pk}'`).join(',');
     }
+
+    async findOneByPk(pk) {
+
+        const result = await database.query(
+            'SELECT * FROM conversation WHERE pk = $1', 
+            [pk]
+        );
+        
+        return result.rows[0];
+    }
 }
   
 module.exports = new ConversationRepository();

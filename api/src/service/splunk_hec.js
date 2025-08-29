@@ -8,7 +8,7 @@ const splunkHEC = axios.create({
   }
 });
 
-const sendToSplunk = async (message, type_log, path_log, data, request) => {
+const sendToSplunk = async (message, type_log, path_log, data, project, request) => {
   try {
     const response = await splunkHEC.post('', {
         event: {
@@ -16,7 +16,7 @@ const sendToSplunk = async (message, type_log, path_log, data, request) => {
             type_log,
             path_log,
             data,
-            project: 'api',
+            project: project,
             request: {
               header_user_agent: request?.headers['user-agent'] || null,
               header_sec_ch_ua_platform: request?.headers['sec-ch-ua-platform'] || null,

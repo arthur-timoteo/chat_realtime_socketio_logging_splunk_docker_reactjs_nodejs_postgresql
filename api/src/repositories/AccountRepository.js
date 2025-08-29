@@ -2,8 +2,8 @@ const database = require('../database/database_connection');
 const sendToSplunk = require('../service/splunk_hec');
 
 class AccountRepository {
-    async create(member) {
-        const { first_name, email, password_signin, ip_address } = member;
+    async create(member, ip_address) {
+        const { first_name, email, password_signin } = member;
 
         if(await !this.checkIfMemberAlreadyExists(email))
         {
@@ -59,19 +59,7 @@ class AccountRepository {
             return null;
         }
 
-        await this.logSignInHistory(result.rows[0].pk, ip_address);
-        sendToSplunk('Member signed in with success', 'INFO', 'AR-SI_1', {email, ip_address});
-        
         return result.rows[0];
-    }
-
-    async logSignInHistory(fk_member, ip_address) {
-
-        await database.query(
-            'INSERT INTO log_in_history (fk_member, ip_address) VALUES ($1, $2);', 
-            [fk_member, ip_address]
-        );
-
     }
 
     async findByPk(pk) {
