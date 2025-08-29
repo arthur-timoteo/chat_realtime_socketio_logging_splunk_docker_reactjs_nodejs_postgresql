@@ -11,7 +11,7 @@ router.post('/message/create', async (req, res) => {
     //Validate that all parameters have been provided
     if(fk_conversation == null || fk_member == null || content_text == null)
     {
-      sendToSplunk('The supplied object is incorrect', 'WARN', 'MC-MC_0', {data: req.body}, req);
+      await sendToSplunk('The supplied object is incorrect', 'WARN', 'MC-MC_0', {data: req.body}, 'api', req);
       res.status(400).json({ message: 'The supplied object is incorrect'});
       return;
     }
@@ -20,7 +20,7 @@ router.post('/message/create', async (req, res) => {
 
     res.status(201).json({ message: 'Conversation created with success'});
   } catch (error) {
-    sendToSplunk('Internal server error', 'ERROR', 'MC-MC_1', {error, data: req.body}, req);
+    await sendToSplunk('Internal server error', 'ERROR', 'MC-MC_1', {error, data: req.body}, 'api', req);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
@@ -33,7 +33,7 @@ router.get('/message/list/:pk_conversation', async (req, res) => {
     //Validate that parameter have been provided
     if(pkConversation == null)
     {
-      sendToSplunk('The supplied object is incorrect', 'WARN', 'MC-ML_0', null, req);
+      await sendToSplunk('The supplied object is incorrect', 'WARN', 'MC-ML_0', null, 'api', req);
       res.status(400).json({ message: 'The request is incorrect'});
       return;
     }
@@ -42,7 +42,7 @@ router.get('/message/list/:pk_conversation', async (req, res) => {
 
     res.status(200).json(result);
   } catch (error) {
-    sendToSplunk('Internal server error', 'ERROR', 'MC-ML_1', {error, data: req.body}, req);
+    await sendToSplunk('Internal server error', 'ERROR', 'MC-ML_1', {error, data: req.body}, 'api', req);
     res.status(500).json({ message: 'Internal server error' });
   }
 });

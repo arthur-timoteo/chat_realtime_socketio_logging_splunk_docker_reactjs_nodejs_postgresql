@@ -7,7 +7,7 @@ class AccountRepository {
 
         if(await !this.checkIfMemberAlreadyExists(email))
         {
-            sendToSplunk('Member already exists', 'WARN', 'AR-C_0', {first_name, email, ip_address});
+            await sendToSplunk('Member already exists', 'WARN', 'AR-C_0', {first_name, email, ip_address}, 'api', null);
             return false;
         }
 
@@ -18,7 +18,7 @@ class AccountRepository {
             );
         }
         catch(error){
-            sendToSplunk('Error to try check if member already exists', 'ERROR', 'AR-C_1', {error, data: {first_name, email, password_signin, ip_address}});
+            await sendToSplunk('Error to try check if member already exists', 'ERROR', 'AR-C_1', {error, data: {first_name, email, password_signin, ip_address}}, 'api', null);
             return false;
         }
 
@@ -36,7 +36,7 @@ class AccountRepository {
             return result.rows[0].count;
         }
         catch(error){
-            sendToSplunk('Error to try check if member already exists', 'ERROR', 'AR-CIMAE_0', {error, data: {email}});
+            await sendToSplunk('Error to try check if member already exists', 'ERROR', 'AR-CIMAE_0', {error, data: {email}}, 'api', null);
             return 0;
         }
     }
@@ -45,7 +45,7 @@ class AccountRepository {
 
         if(!await this.checkIfMemberAlreadyExists(email))
         {
-            sendToSplunk('Member do not exists', 'WARN', 'AR-SI_0', {email, ip_address});
+            await sendToSplunk('Member do not exists', 'WARN', 'AR-SI_0', {email, ip_address}, 'api', null);
             return null;
         }
 
@@ -73,7 +73,7 @@ class AccountRepository {
             return result.rows[0];
         }
         catch(error){
-            sendToSplunk('Error to try check if member already exists', 'ERROR', 'AR-FBP_0', {error, data: {pk}});
+            await sendToSplunk('Error to try check if member already exists', 'ERROR', 'AR-FBP_0', {error, data: {pk}}, 'api', null);
         }
     }
 }

@@ -11,7 +11,7 @@ router.post('/contact/add', async (req, res) => {
     //Validate that all parameters have been provided
     if(fk_member == null || fk_member_contact == null)
     {
-      sendToSplunk('The supplied object is incorrect', 'WARN', 'CC-CA_0', {data: req.body}, req);
+      await sendToSplunk('The supplied object is incorrect', 'WARN', 'CC-CA_0', {data: req.body}, 'api', req);
       res.status(400).json({ message: 'The supplied object is incorrect'});
       return;
     }
@@ -27,7 +27,7 @@ router.post('/contact/add', async (req, res) => {
 
     res.status(201).json({ message: 'Contact added with success'});
   } catch (error) {
-    sendToSplunk('Internal server error', 'ERROR', 'CC-CA_1', {error, data: { fk_member, fk_member_contact }}, req);
+    await sendToSplunk('Internal server error', 'ERROR', 'CC-CA_1', {error, data: { fk_member, fk_member_contact }}, 'api', req);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
@@ -48,7 +48,7 @@ router.get('/contact/list/:pk_member', async (req, res) => {
 
     res.status(200).json(result);
   } catch (error) {
-    sendToSplunk('Internal server error', 'ERROR', 'CC-CL_0', {error, data: req.params.pk_member}, req);
+    await sendToSplunk('Internal server error', 'ERROR', 'CC-CL_0', {error, data: req.params.pk_member}, 'api', req);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
@@ -69,7 +69,7 @@ try {
 
   res.status(200).json(result);
 } catch (error) {
-  sendToSplunk('Internal server error', 'ERROR', 'CC-CLC_0', {error, data: req.params.pk_member}, req);
+  await sendToSplunk('Internal server error', 'ERROR', 'CC-CLC_0', {error, data: req.params.pk_member}, 'api', req);
   res.status(500).json({ message: 'Internal server error' });
 }
 });
@@ -84,7 +84,7 @@ router.delete('/contact/:pkMemberContact', async (req, res) => {
 
     res.status(200).json({ message: 'Contact deleted with success'});
   } catch (error) {
-    sendToSplunk('Internal server error', 'ERROR', 'CC-C$_0', {error, data: {authorization: req.headers.authorization, pkMemberContact: req.params.pkMemberContact}}, req);
+    await sendToSplunk('Internal server error', 'ERROR', 'CC-C$_0', {error, data: {authorization: req.headers.authorization, pkMemberContact: req.params.pkMemberContact}}, 'api', req);
     res.status(500).json({ message: 'Internal server error' });
   }
 });

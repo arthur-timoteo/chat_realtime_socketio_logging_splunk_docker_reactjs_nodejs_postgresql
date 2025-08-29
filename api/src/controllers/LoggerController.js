@@ -11,7 +11,7 @@ router.post('/log', async (req, res) => {
 
     res.status(201).json({ message: 'Log successfully registered'});
   } catch (error) {
-    sendToSplunk('Internal server error', 'ERROR', 'LC-L-0', {error, data: req.body}, req);
+    await sendToSplunk('Internal server error', 'ERROR', 'LC-L-0', {error, data: req.body}, 'api', req);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
