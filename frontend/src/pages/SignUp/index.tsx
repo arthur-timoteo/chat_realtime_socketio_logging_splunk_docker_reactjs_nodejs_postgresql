@@ -56,8 +56,7 @@ function SignUp() {
             await api.post('/account/signup', {
                 first_name: firstName,
                 email,
-                password_signin: password,
-                ip_address: "111.111.1.1"
+                password_signin: password
             });
 
             setMessageToUser({ style: 'success', message: 'Registration successfully made' });
