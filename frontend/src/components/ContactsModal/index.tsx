@@ -3,6 +3,7 @@ import './style.css';
 import { useEffect, useState } from 'react';
 import { api } from '../../services/axios';
 import ShortUniqueId from 'short-uuid';
+import { Log } from '../../services/logger';
 
 interface ContactsModalProps {
     pkMember: string
@@ -26,7 +27,8 @@ export function ContactsModal({ pkMember }: ContactsModalProps) {
             await api.get(`/contact/list/${pkMember}`).then(response => setContacts(response.data));
         }
         catch(error) {
-            console.log(error);
+            await Log('Error when trying to fetch member contacts', 'ERROR', 'CM-I-SC-0', 
+                `data: {pkMember: ${pkMember}}, error: ${error as string}`);
         }
     }
 
@@ -37,16 +39,38 @@ export function ContactsModal({ pkMember }: ContactsModalProps) {
 
         try{
             await api.post('/contact/add', { 
-                    fk_member: pkMember,
-                    fk_member_contact: ShortUniqueId().toUUID(memberIdentifier) 
-                });
+                fk_member: pkMember,
+                fk_member_contact: ShortUniqueId().toUUID(memberIdentifier) 
+            });
+            
             setMemberIdentifier('');
             searchContacts();
         }
         catch(error) {
-            console.log(error);
+            await Log('Error when trying to add contact', 'ERROR', 'CM-I-AC-0', 
+                `data: {pkMember: ${pkMember}, pkContact: ${memberIdentifier}}, error: ${error as string}`);
         }
     }
+
+    async function deleteContact(pk_member: string) {
+
+        try{
+            await api.delete(
+                `/contact/${pk_member}`,
+                {
+                    headers: {
+                        Authorization: pkMember
+                    }
+                }
+            );
+            
+            searchContacts();
+        }
+        catch(error) {
+            await Log('Error when trying to delete contact', 'ERROR', 'CM-I-DC-0', 
+                `data: {pkMember: ${pkMember}, pkContact: ${pk_member}}, error: ${error as string}`);
+        }
+    };
 
     return (
         <div className="contacts-modal-area">
@@ -78,7 +102,7 @@ export function ContactsModal({ pkMember }: ContactsModalProps) {
                                 <span>{contact.first_name}</span>
                             </div>
 
-                            <a title="Delete contact">
+                            <a title="Delete contact" onClick={() => deleteContact(contact.pk)}>
                                 <FaTrashCan className="icon" />
                             </a>
                         </div>

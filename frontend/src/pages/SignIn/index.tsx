@@ -3,6 +3,7 @@ import './style.css';
 import { FormEvent, useState } from 'react';
 import { FaSpinner } from 'react-icons/fa6';
 import { api } from '../../services/axios';
+import { Log } from '../../services/logger';
 
 interface IMessageToUser {
     style: 'success' | 'danger' | undefined,
@@ -20,16 +21,13 @@ function SignIn() {
     function doNotHaveAnAccount(){
         navigate('/signup');
     }
-
-    function timeout(delay: number) {
-        return new Promise( res => setTimeout(res, delay) );
-    }
     
     async function signIn(event: FormEvent<HTMLFormElement>){
         event.preventDefault();
 
         if(!email || !password){
             setMessageToUser({ style: 'danger', message: 'There are blank fields' });
+            await Log('The supplied object is incorrect', 'WARN', 'SI-I-SI-0', null);
             return;
         }
 
@@ -38,15 +36,15 @@ function SignIn() {
         try{
             const result = await api.post('/account/signin', {
                 email,
-                password_signin: password,
-                ip_address: "111.111.1.1"
+                password_signin: password
             });
     
             setIsloading(false);
             navigate('/home', { state: { pk: result.data.data.pk } });
         }
-        catch {
+        catch (error) {
             setMessageToUser({ style: 'danger', message: 'Error to try sign-up' });
+            await Log('Error to try sign in', 'ERROR', 'SI-I-SI-1', `error: ${error as string}`);
         }
 
         setIsloading(false);

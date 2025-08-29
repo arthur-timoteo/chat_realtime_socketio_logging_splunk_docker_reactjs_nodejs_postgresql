@@ -1,24 +1,24 @@
 const database = require('../database/database_connection');
+const sendToSplunk = require('../service/splunk_hec');
 
 class AccountRepository {
-    async create(member) {
-        const { first_name, email, password_signin, ip_address } = member;
+    async create(member, ip_address) {
+        const { first_name, email, password_signin } = member;
 
         if(await !this.checkIfMemberAlreadyExists(email))
         {
-            console.log('aaaaaaaa');
+            await sendToSplunk('Member already exists', 'WARN', 'AR-C_0', {first_name, email, ip_address}, 'api', null);
             return false;
         }
 
         try{
-            console.log('insert member');
             await database.query(
                 'INSERT INTO member (first_name, email, password_signin, ip_address) VALUES ($1, $2, $3, $4);', 
                 [first_name, email, password_signin, ip_address]
             );
         }
         catch(error){
-            console.log(error);
+            await sendToSplunk('Error to try check if member already exists', 'ERROR', 'AR-C_1', {error, data: {first_name, email, password_signin, ip_address}}, 'api', null);
             return false;
         }
 
@@ -36,7 +36,7 @@ class AccountRepository {
             return result.rows[0].count;
         }
         catch(error){
-            console.log(error);
+            await sendToSplunk('Error to try check if member already exists', 'ERROR', 'AR-CIMAE_0', {error, data: {email}}, 'api', null);
             return 0;
         }
     }
@@ -45,6 +45,7 @@ class AccountRepository {
 
         if(!await this.checkIfMemberAlreadyExists(email))
         {
+            await sendToSplunk('Member do not exists', 'WARN', 'AR-SI_0', {email, ip_address}, 'api', null);
             return null;
         }
 
@@ -58,18 +59,7 @@ class AccountRepository {
             return null;
         }
 
-        await this.logSignInHistory(result.rows[0].pk, ip_address);
-        
         return result.rows[0];
-    }
-
-    async logSignInHistory(fk_member, ip_address) {
-
-        await database.query(
-            'INSERT INTO log_in_history (fk_member, ip_address) VALUES ($1, $2);', 
-            [fk_member, ip_address]
-        );
-
     }
 
     async findByPk(pk) {
@@ -83,7 +73,7 @@ class AccountRepository {
             return result.rows[0];
         }
         catch(error){
-            console.log(error);
+            await sendToSplunk('Error to try check if member already exists', 'ERROR', 'AR-FBP_0', {error, data: {pk}}, 'api', null);
         }
     }
 }

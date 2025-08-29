@@ -2,6 +2,7 @@ const { Server } = require('socket.io');
 const participantRepository = require('../repositories/ParticipantRepository');
 const messageRepository = require('../repositories/MessageRepository');
 const accountRepository = require('../repositories/AccountRepository');
+const conversationRepository = require('../repositories/ConversationRepository');
 
 function setupSocketIO(httpServer) {
   const io = new Server(httpServer, {
@@ -40,16 +41,23 @@ function setupSocketIO(httpServer) {
 
       // Emit the update to all participants in the conversation
       const participants = await participantRepository.listAllParticipantsFromOneConversation(pkConversation);
+      const conversation = await conversationRepository.findOneByPk(pkConversation);
+
+      let conversationAnotherChatMemberName = undefined;
+      if(!conversation.type_conversation) {
+        const auxMember = participants.filter(participant => participant.fk_member != messageFormated.fk_member);
+        conversationAnotherChatMemberName = await accountRepository.findByPk(auxMember[0].fk_member);
+      }
 
       for(let i = 0; i < participants.length; i++) {
         io.emit(`conversation:update:${participants[i].fk_member}`, {
           pk: pkConversation,
-          title: messageFormated.title,
+          title: conversation.type_conversation ? conversation.title : participants[i].fk_member != messageFormated.fk_member ? senderName : conversationAnotherChatMemberName.first_name,
           last_message_sender_pk: messageFormated.fk_member,
           last_message_sender: senderName,
           last_message_text: messageFormated.content_text,
           last_message_time: messageFormated.sent_at,
-          type_conversation: participants.length > 2 ? true : false
+          type_conversation: conversation.type_conversation
         });
       }
     });

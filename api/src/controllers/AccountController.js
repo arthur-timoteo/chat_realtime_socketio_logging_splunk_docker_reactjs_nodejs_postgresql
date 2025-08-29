@@ -1,21 +1,20 @@
 const express = require('express');
 const accountRepository = require('../repositories/AccountRepository');
 const router = express.Router();
-const database = require('../database/database_connection');
+const sendToSplunk = require('../service/splunk_hec');
 
 router.post('/account/signup', async (req, res) => {
   try {
 
     //Validate that all parameters have been provided
-    if(req.body.first_name == null || req.body.email == null || req.body.password_signin == null || req.body.ip_address == null)
+    if(req.body.first_name == null || req.body.email == null || req.body.password_signin == null)
     {
+      await sendToSplunk('The supplied object is incorrect', 'WARN', 'AC-ASU_0', {data: req.body}, 'api', req);
       res.status(400).json({ message: 'The supplied object is incorrect'});
       return;
     }
     
-    const result = await accountRepository.create(req.body);
-
-    console.log(result);
+    const result = await accountRepository.create(req.body, req.socket.remoteAddress);
 
     if(!result)
     {
@@ -23,10 +22,10 @@ router.post('/account/signup', async (req, res) => {
       return;
     } 
 
+    await sendToSplunk('Created with success', 'INFO', 'AC-ASU_1', {email: req.body.email}, 'api', req);
     res.status(201).json({ message: 'Created with success'});
   } catch (err) {
-    // Print error in console
-    console.error(err);
+    await sendToSplunk('Error to try signup a member', 'ERROR', 'AC-ASU_3', {error: err}, 'api', req);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
@@ -37,29 +36,23 @@ router.post('/account/signin', async (req, res) => {
     //Validates that the required sign-in parameters have been provided
     if(req.body.email == null || req.body.password_signin == null)
     {
+      await sendToSplunk('The supplied object is incorrect', 'WARN', 'AC-ASI_0', {data: req.body}, 'api', req);
       res.status(400).json({ message: 'The supplied object is incorrect'});
       return;
     }
-    
-    //Validates that the ip address has been provided
-    if(req.body.ip_address == null)
-    {
-      res.status(500).json({ message: 'Internal server error'});
-      return;
-    }
 
-    const result = await accountRepository.signIn(req.body.email, req.body.password_signin, req.body.ip_address);
+    const result = await accountRepository.signIn(req.body.email, req.body.password_signin, req.socket.remoteAddress);
 
     if(result == null)
     {
       res.status(500).json({ message: 'Error trying to sign-in'});
       return;
     } 
-    
+
+    await sendToSplunk('Member signed in with success', 'INFO', 'AC-ASI_1', {email: req.body.email}, 'api', req);
     res.status(200).json({ message: 'Signed In with success', data: result});
   } catch (err) {
-    // Print error in console
-    console.error(err);
+    await sendToSplunk('Error to try signin a member', 'ERROR', 'AC-ASI_2', {error: err}, 'api', req);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
@@ -68,6 +61,7 @@ router.get('/account', async (req, res) => {
 
   if(req.headers.authorization == null)
   {
+    await sendToSplunk('Bad request, authorization header is missing', 'WARN', 'AC-A_0', {data: req.body}, 'api', req);
     res.status(400).json({ message: 'Bad request, authorization header is missing'});
     return;
   }
@@ -82,9 +76,8 @@ router.get('/account', async (req, res) => {
       message: 'Account data successfully retrieved',
       data: result
     });
-  } catch (err) {
-    // Print error in console
-    console.error(err);
+  } catch (error) {
+    await sendToSplunk('Internal server error', 'ERROR', 'AC-A_1', {error}, 'api', req);
     res.status(500).json({ message: 'Internal server error' });
   }
 });

@@ -3,6 +3,7 @@ import ConversationItem from '../ConversationItem';
 import './style.css';
 import { api } from '../../services/axios';
 import { useSocket } from '../../services/SocketContext';
+import { Log } from '../../services/logger';
 
 type ConversationProps = {
     pkMember: string,
@@ -71,8 +72,9 @@ function Conversation({ pkMember, setConversationIsShow } : ConversationProps ) 
         {
             await api.get(`/conversation/list/${pkMember}`).then(response => setConversations(response.data));
         }
-        catch {
-            console.log('error');
+        catch(error) {
+            await Log('Error when trying to fetch member conversations', 'ERROR', 'C-I-SC-0', 
+                `data: {pkMember: ${pkMember}}, error: ${error as string}`);
         }
     }
 
