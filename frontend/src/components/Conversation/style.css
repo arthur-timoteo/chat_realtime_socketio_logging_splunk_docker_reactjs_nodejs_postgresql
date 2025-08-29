@@ -1,0 +1,9 @@
+.session-conversations {
+    padding: 10px 10px 10px 0px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.session-conversations .conversation-block:last-child {
+    border-bottom: none;
+}

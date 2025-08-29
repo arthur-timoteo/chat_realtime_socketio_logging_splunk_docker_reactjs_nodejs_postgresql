@@ -1,0 +1,87 @@
+div.group-modal-area {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+div.group-modal-area > div.group-modal-header {
+    background-color: #fff;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+div.group-modal-area > div.group-modal-header > div > span {
+    margin-right: 0.5rem;
+    font-weight: bold;
+}
+
+div.group-modal-area > div.group-modal-header > div.group-modal-header-selected-contacts {
+    margin-top: 1.2rem;
+    overflow-x: auto;
+    display: flex;
+    flex-direction: row;
+}
+
+div.group-modal-area > div.group-modal-header > div.group-modal-header-selected-contacts > span {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+div.group-modal-area > div.group-modal-header > div.group-modal-header-selected-contacts > span > svg {
+    font-size: 30px;
+}
+
+div.group-modal-area > div.group-modal-header > div.group-modal-header-selected-contacts > span > button {
+    position: absolute;
+    margin-left: 30px;
+    margin-top: -10px;
+    border: none;
+    border-radius: 30px;
+    background-color: red;
+    font-size: 10px;
+}
+
+div.group-modal-area > div.group-modal-header > button {
+    background-color: var(--color-primary-1);
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    margin-top: 0.5rem;
+    font-size: 17px;
+    padding: 7px 0;
+}
+
+div.group-modal-area > div.group-modal-item {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: solid var(--color-gray-2) 1px;
+}
+
+div.group-modal-area > div.group-modal-item:last-child {
+    border-bottom: none;
+}
+
+div.group-modal-area > div.group-modal-item div.contact-infos {
+    display: flex;
+    align-items: center;
+}
+
+div.group-modal-area > div.group-modal-item div.contact-infos > svg {
+    padding-left: 15px;
+    font-size: 30px;
+}
+
+div.group-modal-area > div.group-modal-item div.contact-infos > span {
+    padding-left: 10px;
+}
+
+div.group-modal-area > div.group-modal-item > input {
+    font-size: 20px;
+    margin-right: 15px;
+}

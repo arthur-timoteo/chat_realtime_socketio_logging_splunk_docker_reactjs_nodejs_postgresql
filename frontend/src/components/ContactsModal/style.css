@@ -1,0 +1,61 @@
+div.contacts-modal-area {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+div.contacts-modal-area > div.contacts-modal-header {
+    background-color: #fff;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+div.contacts-modal-area > div.contacts-modal-item {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: solid var(--color-gray-2) 1px;
+}
+
+div.contacts-modal-area > div.contacts-modal-item:last-child {
+    border-bottom: none;
+}
+
+div.contacts-modal-area > div.contacts-modal-item div.contact-infos {
+    display: flex;
+    align-items: center;
+}
+
+div.contacts-modal-area > div.contacts-modal-item div.contact-infos > svg {
+    padding-left: 15px;
+    font-size: 30px;
+}
+
+div.contacts-modal-area > div.contacts-modal-item div.contact-infos > span {
+    padding-left: 10px;
+}
+
+div.contacts-modal-area > div.contacts-modal-item a > svg {
+    font-size: 20px;
+    padding-right: 15px;
+}
+
+div.contacts-modal-area > div.contacts-modal-item a > svg:hover {
+    color: red;
+}
+
+div.contacts-modal-area > div.contacts-modal-header > div > span {
+    margin-right: 0.5rem;
+    font-weight: bold;
+}
+
+div.contacts-modal-area > div.contacts-modal-header > button {
+    background-color: var(--color-primary-1);
+    color: #fff;
+    font-weight: bold;
+    border: none;
+}

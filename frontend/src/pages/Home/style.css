@@ -1,0 +1,36 @@
+.home-content {
+    flex: 1;
+    flex-direction: row;
+    display: flex;
+    min-width: 70vw;
+    max-height: 40vh;
+}
+
+.home-content > .session-left {
+    min-width: 23vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.home-content > .session-left > .session-conversations {
+    padding: 10px 10px 10px 0px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.menu-bar {
+    background-color: #eeeeee;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 15px 10px;
+}
+
+.menu-bar .icon {
+    font-size: 25px;
+    margin: 0px 10px;
+}
+
+.menu-items a, .menu-items a:hover, .menu-bar a, .menu-bar a:hover {
+    color: black;
+}

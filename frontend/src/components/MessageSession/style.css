@@ -1,0 +1,107 @@
+.session-right {
+    display: flex;
+    flex: 1;
+    background-color: #fff5e6;
+    flex-direction: column;
+    border-left: 1px solid var(--color-gray-2);
+}
+
+.message-session {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 10px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.message-sender {
+    display: flex;
+    justify-content: end;
+}
+
+.message-recipient {
+    display: flex;
+    justify-content: start;
+}
+
+.message-item {
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+    border-radius: 10px;
+    max-width: 50%;
+    margin-top: 0.3rem;
+}
+
+.message-sender > .message-item {
+    background-color: var(--color-primary-2);
+    color: #fff;
+}
+
+.message-recipient > .message-item {
+    background-color: var(--color-gray-2);
+    color: #000;
+}
+
+.message-date {
+    font-size: 10px;
+    text-align: end;
+    display: flex;
+    justify-content: space-between;
+    gap: 0.3rem;
+}
+
+.message-name-sender {
+    font-size: 10px;
+    display: flex;
+    justify-content: start;
+}
+
+.message-write {
+    background-color: #eeeeee;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.message-write > textarea {
+    border-radius: 5px;
+    resize: none;
+    width: 100%;
+}
+
+.message-write a, .message-write a:hover {
+    color: #000;
+}
+
+.message-write a > .sent {
+    font-size: 30px;
+    margin: 0 20px;
+}
+
+.session-title {
+    background-color: #eeeeee;
+    padding: 0.6rem;
+}
+
+.session-title a {
+    color: #000;
+}
+
+.session-title .conversation-infos {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.session-title .conversation-infos > .conversation-img {
+    width: 50px;
+    height: 45px;
+}
+
+.session-title .conversation-infos > .conversation-title {
+    font-size: 25px;
+    font-weight: bold;
+}

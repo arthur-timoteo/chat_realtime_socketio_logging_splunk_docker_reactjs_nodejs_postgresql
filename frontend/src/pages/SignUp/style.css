@@ -1,0 +1,125 @@
+.sign-up-area {
+    padding: 2.5rem;
+    min-width: 20vw;
+}
+
+.sign-up-area > form {
+    display: flex;
+    flex-direction: column;
+}
+
+.sign-up-area > form > h1 {
+    margin-top: 0;
+}
+
+.sign-up-area > form > input {
+    font-size: 13px;
+    padding: 5px;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    border-radius: 5px;
+    border: 2px solid var(--color-gray-2);
+}
+
+.sign-up-area > form > input:focus {
+    border: 2px solid var(--color-primary-1);
+}
+
+.sign-up-area > form > button {
+    padding: 10px;
+    margin-top: 0.5rem;
+    border-radius: 5px;
+    border: 0 !important;
+    font-size: 15px;
+    background-color: var(--color-primary-2);
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.sign-up-area > form > button > svg {
+    animation: spin 2s infinite linear;
+}
+
+.sign-up-area > form > button:hover {
+    background-color: var(--color-primary-1);
+}
+
+.sign-up-area > form > button:disabled {
+    background-color: var(--color-gray-2);
+}
+
+.sign-up-area a.link-already-have-account {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 14px;
+}
+
+.sign-up-area label.inpt-label {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.sign-up-area > form > div.terms {
+    margin-top: 2rem;
+    font-size: 14px;
+}
+
+div.danger {
+    background-color: #f15f5f;
+    padding: 6px;
+    border-radius: 5px;
+    border: solid 2px red;
+    text-align: center;
+    font-size: 13px;
+    margin-bottom: 1.5rem;
+}
+
+div.success {
+    background-color: #70f15f;
+    padding: 6px;
+    border-radius: 5px;
+    border: solid 2px green;
+    text-align: center;
+    font-size: 13px;
+    margin-bottom: 1.5rem;
+}
+
+@media screen and (max-width: 575px) {
+    .sign-up-area {
+        padding: 2rem !important;
+        min-width: 66vw;
+    }
+}
+
+@media screen and (min-width: 576px) and (max-width: 767px) {
+    .sign-up-area {
+        min-width: 56vw;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    .sign-up-area {
+        min-width: 56vw;
+    }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    .sign-up-area {
+        min-width: 50vw;
+    }
+}
+
+@media screen and (min-width: 1200px) and (max-width: 1399px) {
+    .sign-up-area {
+        min-width: 40vw;
+    }
+}
+
+@keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+}
