@@ -18,7 +18,7 @@ router.post('/message/create', async (req, res) => {
     
     await messageRepository.create(fk_conversation, fk_member, content_text);
 
-    res.status(201).json({ message: 'Conversation created with success'});
+    res.status(201).json({ message: 'Message saved with success'});
   } catch (error) {
     await sendToSplunk('Internal server error', 'ERROR', 'MC-MC_1', {error, data: req.body}, 'api', req);
     res.status(500).json({ message: 'Internal server error' });
