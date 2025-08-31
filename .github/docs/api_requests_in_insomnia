@@ -1,0 +1,428 @@
+type: collection.insomnia.rest/5.0
+name: Scratch Pad
+meta:
+  id: wrk_scratchpad
+  created: 1707516709709
+  modified: 1707516709709
+collection:
+  - name: chat_docker
+    meta:
+      id: fld_3de7cf410c644f64904f5253c0305d7e
+      created: 1719613665933
+      modified: 1719688116188
+      sortKey: -1719613665933
+    children:
+      - name: Account
+        meta:
+          id: fld_4424456a9e4445c4839bc7077be873ac
+          created: 1719697718920
+          modified: 1719973815261
+          sortKey: -1719697718920
+        children:
+          - url: http://localhost:3001/account/signin
+            name: SignIn
+            meta:
+              id: req_ac2331fe527a4e7fabde413ff7ad6fcb
+              created: 1719613669991
+              modified: 1755395132756
+              isPrivate: false
+              sortKey: -1719697757934
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"email": "arthur.teste@bol.com",
+                	"password_signin": "arthur"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/9.2.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:3001/account/signup
+            name: SignUp
+            meta:
+              id: req_961eab2e4beb4106b8da33c82af0508a
+              created: 1719697808429
+              modified: 1756496040469
+              isPrivate: false
+              sortKey: -1718829692925
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"first_name": "Alberto",
+                	"email": "alberto@bol.com",
+                	"password_signin": "alberto"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/9.2.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:3001/account
+            name: Infos
+            meta:
+              id: req_1298cd128f9d4a9682fc53942b9000c2
+              created: 1752442231960
+              modified: 1756506933720
+              isPrivate: false
+              sortKey: -1752442231960
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+                id: pair_a2e510ba212349ddba74d7ea79716ef5
+              - id: pair_1c6528fab9a0436a96f419c23a9d0c3c
+                name: Authorization
+                value: 5412018b-e930-40a3-a203-a51d46d753fb
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Contact
+        meta:
+          id: fld_93ab5383b39b4e7fa78f408c6416b549
+          created: 1719973787330
+          modified: 1719973787330
+          sortKey: -1719973787330
+        children:
+          - url: http://localhost:3001/contact/add
+            name: Add
+            meta:
+              id: req_fc4355246ab7414bac47712aa2df97b4
+              created: 1719973796661
+              modified: 1756507031852
+              isPrivate: false
+              sortKey: -1719973796661
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"fk_member": "5412018b-e930-40a3-a203-a51d46d753fb",
+                	"fk_member_contact": "2e155079-beba-4c4a-b633-a9d2783dc41e"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/9.3.1
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:3001/contact/list/5412018b-e930-40a3-a203-a51d46d753fb
+            name: ListAll
+            meta:
+              id: req_d078693dcb9747938bb2c9fb758ed14b
+              created: 1720021283189
+              modified: 1756507054900
+              isPrivate: false
+              sortKey: -1720021283189
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/9.3.1
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:3001/contact/list/conversation/2e155079-beba-4c4a-b633-a9d2783dc41e
+            name: ListWithOutSimpleConversation
+            meta:
+              id: req_b19352c67b414d47bc0c1d4352892754
+              created: 1728779841328
+              modified: 1756507013438
+              isPrivate: false
+              sortKey: -1719997539925
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/9.3.1
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:3001/contact/2e155079-beba-4c4a-b633-a9d2783dc41e
+            name: Delete
+            meta:
+              id: req_5a835edef9b94971b47cec166611fe1b
+              created: 1750978343280
+              modified: 1756507066315
+              isPrivate: false
+              sortKey: -1750978343280
+            method: DELETE
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+                id: pair_34ba7f3d2dd94f4ab9b85c9452c50d7f
+              - id: pair_f06b38b42250445aba58ff9ea1b26aef
+                name: Authorization
+                value: 5412018b-e930-40a3-a203-a51d46d753fb
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Conversation
+        meta:
+          id: fld_bd1d69be823f4276a06130bb39849874
+          created: 1720044724025
+          modified: 1720044724025
+          sortKey: -1720044724025
+        children:
+          - url: http://localhost:3001/conversation/create
+            name: Create
+            meta:
+              id: req_498d6606c7084b918e82e1df38694383
+              created: 1720044734664
+              modified: 1756507113610
+              isPrivate: false
+              sortKey: -1720044734664
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"type_conversation": 0, 
+                	"title": null, 
+                	"list_pk_member": [
+                		"2e155079-beba-4c4a-b633-a9d2783dc41e",
+                		"3ac261cf-6b65-430f-8c4b-9d788ecd17f1"
+                	]
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/9.3.1
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:3001/conversation/list/2e155079-beba-4c4a-b633-a9d2783dc41e
+            name: List
+            meta:
+              id: req_f557b01daaf64491a54495d07c916629
+              created: 1720048200811
+              modified: 1756507084191
+              isPrivate: false
+              sortKey: -1720048200811
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/9.3.1
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Message
+        meta:
+          id: fld_a6033152c39345fa816b39cfe47272fc
+          created: 1731115824076
+          modified: 1731115828255
+          sortKey: -1720044724125
+        children:
+          - url: http://localhost:3001/message/list/2f8e1ddd-b882-45e1-87e3-bfefd02684aa
+            name: List
+            meta:
+              id: req_4dbce67971e6448d90efb92efe386460
+              created: 1731115840152
+              modified: 1756507473994
+              isPrivate: false
+              sortKey: -1731115840152
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/10.1.1
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:3001/message/create
+            name: Create
+            meta:
+              id: req_e9dd18b73e1a4f4bb431e77ba68ed837
+              created: 1731451715501
+              modified: 1756507513176
+              isPrivate: false
+              sortKey: -1731451715501
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"fk_conversation": "a8816867-1a1d-4b04-93c6-7fe8b86f2fa6",
+                	"fk_member": "2e155079-beba-4c4a-b633-a9d2783dc41e",
+                	"content_text": "Olá"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/10.1.1
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Logger
+        meta:
+          id: fld_4f9fa9aa1a524c6b826f1d1efc7f8e11
+          created: 1755999201038
+          modified: 1755999201038
+          sortKey: -1755999201038
+        children:
+          - url: http://localhost:3001/log
+            name: Log
+            meta:
+              id: req_81022404cb3045b6bd9ba07071fb53c3
+              created: 1755999208638
+              modified: 1756510178608
+              isPrivate: false
+              sortKey: -1755999208638
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"event": {
+                		"message": "Error to try send message",
+                		"type_log": "ERROR",
+                		"path_log": "af-hg-l-1",
+                		"data": {
+                			"error": "error"
+                		}
+                	}
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.0.2
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+  - name: API-ECOMMERCE
+    meta:
+      id: fld_d55780cf82704f7494baf0a7850628a4
+      created: 1744577120897
+      modified: 1744577136576
+      sortKey: -1744577121097
+    children:
+      - name: AUTH
+        meta:
+          id: fld_c3dcd182a31d4bc6a15df568149aa922
+          created: 1739114015067
+          modified: 1744577155574
+          sortKey: -1744577144813
+      - name: ADDRESS
+        meta:
+          id: fld_9dd008c58be845b4b47403572a5fe80b
+          created: 1739131117877
+          modified: 1744577151099
+          sortKey: -1744577144713
+      - name: PURCHASE
+        meta:
+          id: fld_6a097a696f9c4819a6e4546d44376c80
+          created: 1739136690729
+          modified: 1744577144655
+          sortKey: -1744577144613
+      - name: PRODUCT
+        meta:
+          id: fld_338a49cb4121494391cb5621271bee2e
+          created: 1744680590969
+          modified: 1744680590969
+          sortKey: -1744680590969
+        children:
+          - name: CATEGORY
+            meta:
+              id: fld_765a60a2340541b8bc782f3dcdabe44d
+              created: 1745544493318
+              modified: 1745544493318
+              sortKey: -1745544493318
+          - name: REVIEW
+            meta:
+              id: fld_cb4568fa52fe443dbc180c7743e60071
+              created: 1745614726152
+              modified: 1745614726152
+              sortKey: -1745614726152
+      - name: ACCOUNT
+        meta:
+          id: fld_ef021feb18fb4fc18ce3652930c74608
+          created: 1745534645260
+          modified: 1745534645260
+          sortKey: -1745534645260
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_99d30891da4bdcebc63947a8fc17f076de878684
+    created: 1707516753782
+    modified: 1707516753782
+environments:
+  name: Base Environment
+  meta:
+    id: env_99d30891da4bdcebc63947a8fc17f076de878684
+    created: 1707516753674
+    modified: 1707516753674
+    isPrivate: false
