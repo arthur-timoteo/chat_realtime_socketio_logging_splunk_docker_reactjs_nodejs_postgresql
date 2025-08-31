@@ -50,6 +50,26 @@ Splunk:
 
 ## How to run
 
+1. Clone this repository;
+2. Go to the repository folder;
+3. Run the command below to create and start containers:
+```bash
+  docker-compose up
+```
+
+#### SPLUNK
+Dashboard -> 8001 port EXTERN / 8000 port INTERN
+API HEC -> 8088 port
+
+#### DATABASE
+5435 port EXTERN
+5432 port INTERN
+
+#### API
+3001 port
+
+#### UI (Front-End)
+3002 port
 
 ## Improvements
 
