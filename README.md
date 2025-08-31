@@ -45,7 +45,7 @@ Splunk:
 ## Database
 
 <p align="center">
-  <img alt="Database" src=".github/images/mer.jpg width="100%">
+  <img alt="Database" src=".github/images/mer.jpg" width="100%">
 </p>
 
 ## How to run
